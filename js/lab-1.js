@@ -7,43 +7,39 @@ function AddSet() {
 
         let charNum = 65 + currNum;
         currNum++;
-    
+
         let delBtn = document.querySelectorAll('#delBtn');
         if (delBtn[delBtn.length - 1]) {
-            delBtn[delBtn.length - 1].style="display: none;";
+            delBtn[delBtn.length - 1].style = "display: none;";
         }
 
         node = document.getElementById('sets');
-        node.insertAdjacentHTML('beforeend', `  <div class="field" id="setfield${charNum - 65}">
-                                                    <div style="display: flex; align-items: center;">
-                                                        <button class="delete is-small mr-1" type="button" onclick="DeleteSet(${charNum - 65})" id="delBtn"></button>
-                                                        <label class="label">Set &#${charNum}</label>
-                                                    </div>
-                                                    <div class="control">
-                                                        <input class="input" type="text" placeholder="e.g. 1,2,5" id="set${charNum - 65}">
-                                                    </div>
+        node.insertAdjacentHTML('beforeend', `  <div class="input-wrap">
+                                                    <h1 class="text">Set &#${charNum} = </h1>
+                                                    <div class="input"><input type="set" id="set${charNum}" placeholder="Define set"/></div>
                                                 </div>`);
+
     } else {
-        console.log('You have reached a limint of available sets');
+        alert('You have reached a limint of available sets');
     }
 }
 
 function DeleteSet(setNum) {
-    
+
     let setField = document.querySelector(`#setfield${setNum}`);
     setField.remove();
     currNum--;
 
     let delBtn = document.querySelectorAll('#delBtn');
     if (delBtn[delBtn.length - 1]) {
-        delBtn[delBtn.length - 1].style="display: inline-block;";
+        delBtn[delBtn.length - 1].style = "display: inline-block;";
     }
 }
 
 
 let universalSet = new Set();
 
-function Complement (set) {
+function Complement(set) {
 
     let _complement = new Set();
 
@@ -52,7 +48,7 @@ function Complement (set) {
     return _complement;
 }
 
-function Intersection (set1, set2) {
+function Intersection(set1, set2) {
 
     let _intersection = new Set();
 
@@ -65,7 +61,7 @@ function Intersection (set1, set2) {
     return _intersection;
 }
 
-function Union (set1, set2) {
+function Union(set1, set2) {
 
     let _union = new Set(set1);
 
@@ -76,12 +72,12 @@ function Union (set1, set2) {
     return _union;
 }
 
-function Difference (set1, set2) {
+function Difference(set1, set2) {
 
     let _difference = new Set(set1);
 
     set2.forEach(element => {
-        
+
         if (_difference.has(element)) {
             _difference.delete(element);
         }
@@ -98,7 +94,7 @@ let SETSNAMES = new Set();
 let SETS = new Array();
 
 function Evaluate() {
-        
+
     FetchSets();
 
     let formulaString = document.getElementById('formula').value;
@@ -109,7 +105,7 @@ function Evaluate() {
     let result = SolveRPNFormula(RPN_Array);
 
     let readableResult = ConvertToReadableResult(result);
-        
+
 
     let resultField = document.getElementById('result');
     resultField.value = readableResult;
@@ -126,7 +122,7 @@ function ConvertFormulaCharArrayToRPN(chars) {
     let actionsStack = new Array();
 
     chars.forEach(element => {
-        
+
         if (SETSNAMES.has(element)) {
 
             setsStack.push(GetSetFromIndex(element));
@@ -181,7 +177,7 @@ function ConvertFormulaCharArrayToRPN(chars) {
 
 function SolveRPNFormula(RPN_Array) {
 
-    let stack =  new Array();
+    let stack = new Array();
 
     for (let i = 0; i < RPN_Array.length; i++) {
         const element = RPN_Array[i];
@@ -189,35 +185,35 @@ function SolveRPNFormula(RPN_Array) {
         if (OPERATORS.has(element)) {
 
             if (element == '~' || element == '!') {
-                
+
                 let currSet = stack.pop();
 
                 let result = Complement(currSet);
 
-                stack.push(result);                
+                stack.push(result);
             } else if (element == '∩' || element == '/') {
-                
+
                 let secondSet = stack.pop();
                 let firstSet = stack.pop();
-                
+
                 let result = Intersection(firstSet, secondSet);
-                
+
                 stack.push(result);
             } else if (element == '∪' || element == '+') {
 
                 let secondSet = stack.pop();
                 let firstSet = stack.pop();
-                
+
                 let result = Union(firstSet, secondSet);
-                
+
                 stack.push(result);
             } else if (element == '-') {
 
                 let secondSet = stack.pop();
                 let firstSet = stack.pop();
-                
+
                 let result = Difference(firstSet, secondSet);
-                
+
                 stack.push(result);
             }
         } else {
@@ -238,21 +234,21 @@ function FetchSets() {
     for (let i = 0; i < currNum; i++) {
 
         let inputField = document.getElementById(`set${i}`);
-        
+
         let numArray;
         if (inputField != undefined && inputField.value.length != 0) {
             numArray = inputField.value.split(',');
 
             numArray.sort();
-        
+
             let newSet = new Set();
-    
+
             numArray.forEach(element => {
-                
+
                 newSet.add(+element);
                 universalArray.push(+element);
             });
-    
+
             SETSNAMES.add(String.fromCharCode(65 + i));
             SETS.push(newSet);
         } else {
@@ -269,7 +265,7 @@ function FetchSets() {
 function GetSetFromIndex(index) {
 
     let unicode = index.charCodeAt(0);
-    
+
     let num = unicode - 65;
 
     return SETS[num];
