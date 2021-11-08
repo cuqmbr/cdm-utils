@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lab-1</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <div class="content">
+                <h3><a href="">CDM</a></h3>
+                <div class="theme">
+                    <h3><a href="">Set Algebra</a></h3>
+                    <h3><a href="">Boolean Algebra</a></h3>
+                </div>
+            </div>
+
+        </header>
+
+        <div class="wrapper">
+
+            <div class="wrap-side">
+                <h1>Sets</h1>
+                <div id="sets">
+                    <div class="input-wrap">
+                        <h1 class="text">Set A = </h1>
+                        <div class="input"><input type="set" id="set0" placeholder="1,2,3" /></div>
+                    </div>
+                    <div class="input-wrap">
+                        <h1 class="text">Set B = </h1>
+                        <div class="input"><input type="set" id="set1" placeholder="Define set" /></div>
+                    </div>
+                </div>
+                <input class="addSet" type="button" value="Add Set" onclick="AddSet()" />
+            </div>
+
+            <div class="wrap-side">
+                <h1>Problem</h1>
+                <h2><input type="problem" id="formula" placeholder="!A-C+B/U" /></h2>
+                <div class="buttons">
+                    <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate()" />
+                    <input class="button" type="button" id="calculate" value="Step by step" onclick="Evaluate()" />
+                </div>
+                <div class="wrap-result">
+                    <div class="input-wrap">
+                        <h1 class="text">Result </h1>
+                        <div class="input"><input type="result" id="result" readonly/></div>
+                    </div>
+                </div>
+                <h6 class="description">Define sets: A, B, C, and Universal set. Then write the problem you need to solve. </h6>
+                <h6 class="operations">
+                    <div class="operation">
+                        <div class="operation-bg">!</div>
+                        <h6>Complement</h6>
+                    </div>
+                    <div class="operation">
+                        <div class="operation-bg">/</div>
+                        <h6>Intersection</h6>
+                    </div>
+                    <div class="operation">
+                        <div class="operation-bg">+</div>
+                        <h6>Union</h6>
+                    </div>
+                    <div class="operation">
+                        <div class="operation-bg">-</div>
+                        <h6>Substraction</h6>
+                    </div>
+                </h6>
+            </div>
+        </div>
+
+        <div class="wrapper hide">
+            <div class="step-by-step">
+                <h1>Step by step</h1>
+                <div class="input-wrap">
+                    <h1 class="text">1.</h1>
+                    <div class="input"><input type="result" id="step1" readonly/></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- -----------------------------------JS---------------------------- -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
