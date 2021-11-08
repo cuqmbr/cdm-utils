@@ -170,22 +170,15 @@ body {
     width: 50%;
 }
 
-<<<<<<< HEAD
-.set {
-=======
 .set,
 .value {
->>>>>>> cdm-utils/set-algebra
     width: 90%;
     margin: 0 auto;
     padding: 5px;
 }
 
-<<<<<<< HEAD
-#sets, #values {
-=======
-#sets {
->>>>>>> cdm-utils/set-algebra
+#sets,
+#values {
     display: flex;
     flex-direction: column;
 }
@@ -266,12 +259,8 @@ input[type=result] {
     font-family: Roboto;
 }
 
-<<<<<<< HEAD
 .addSet,
 .addValue {
-=======
-.addSet {
->>>>>>> cdm-utils/set-algebra
     margin: 20px auto;
 }
 
