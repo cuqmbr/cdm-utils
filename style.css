@@ -171,7 +171,8 @@ body {
     width: 50%;
 }
 
-.set {
+.set,
+.value {
     width: 90%;
     margin: 0 auto;
     padding: 5px;
