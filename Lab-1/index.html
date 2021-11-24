@@ -34,11 +34,11 @@
                 <div id="sets">
                     <div class="input-wrap">
                         <h1 class="text">Set A = </h1>
-                        <div class="input"><input type="set" id="set0" placeholder="1,2,3" /></div>
+                        <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set0" placeholder="1,2,3" /></div>
                     </div>
                     <div class="input-wrap">
                         <h1 class="text">Set B = </h1>
-                        <div class="input"><input type="set" id="set1" placeholder="Define set" /></div>
+                        <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set1" placeholder="Define set" /></div>
                     </div>
                 </div>
                 <input class="addSet" type="button" value="Add Set" onclick="AddSet()" />
@@ -46,9 +46,9 @@
 
             <div class="wrap-side">
                 <h1>Problem</h1>
-                <h2><input type="problem" id="formula" placeholder="!A-C+B/U" /></h2>
+                <h2><input type="problem" id="formula" onkeydown="return checkInputProblem(event.key)" placeholder="!A-C+B/U" /></h2>
                 <div class="buttons">
-                    <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate()" />
+                    <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate(true)" />
                     <input class="button" type="button" id="calculate" value="Step by step" onclick="stepByStep()" />
                 </div>
                 <div class="wrap-result">

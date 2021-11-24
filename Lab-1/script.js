@@ -11,7 +11,7 @@ function AddSet() {
         node = document.getElementById('sets');
         node.insertAdjacentHTML('beforeend', `  <div class="input-wrap">
                                                     <h1 class="text">Set &#${charNum} = </h1>
-                                                    <div class="input"><input type="set" id="set${charNum - 65}" placeholder="Define set"/></div>
+                                                    <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set${charNum - 65}" placeholder="Define set"/></div>
                                                 </div>`);
 
     } else {
@@ -22,12 +22,7 @@ function AddSet() {
 let universalSet = new Set();
 
 function Complement(set) {
-
-    let _complement = new Set();
-
-    _complement = Difference(universalSet, set);
-
-    return _complement;
+    return (checkEmpty(set)) ? universalSet : Difference(universalSet, set);
 }
 
 function Intersection(set1, set2) {
@@ -40,7 +35,7 @@ function Intersection(set1, set2) {
         }
     });
 
-    return _intersection;
+    return sortSet(_intersection);
 }
 
 function Union(set1, set2) {
@@ -51,7 +46,7 @@ function Union(set1, set2) {
         _union.add(element);
     });
 
-    return _union;
+    return sortSet(_union);
 }
 
 function Difference(set1, set2) {
@@ -65,9 +60,20 @@ function Difference(set1, set2) {
         }
     });
 
-    return _difference;
+    return sortSet(_difference);
 }
 
+function sortSet(set) {
+    let entries = [];
+    for (let member of set) {
+        entries.push(+member);
+    }
+    set.clear();
+    for (let entry of entries.sort((a, b) => a - b)) {
+        set.add(entry);
+    }
+    return set;
+};
 
 const OPERATORS = new Set(['~', '!', '∩', '/', '∪', '+', '-']);
 const BRACKETS = new Set(['(', ')']);
@@ -75,7 +81,11 @@ const BRACKETS = new Set(['(', ')']);
 let SETSNAMES = new Set();
 let SETS = new Array();
 
-function Evaluate() {
+function Evaluate(hide = false) {
+    if (hide == true) {
+        let stepByStep = document.getElementById('stepByStep');
+        stepByStep.classList.add('hide');
+    }
 
     FetchSets();
 
@@ -200,7 +210,6 @@ function SolveRPNFormula(RPN_Array) {
                 stack.push(result);
             }
         } else {
-
             stack.push(element);
         }
     }
@@ -231,13 +240,13 @@ function FetchSets() {
             });
 
             SETSNAMES.add(String.fromCharCode(65 + i));
-            SETS.push(newSet);
+            SETS.push(sortSet(newSet));
         } else {
             SETS.push(new Set());
         }
     }
 
-    universalSet = new Set(universalArray);
+    universalSet = sortSet(new Set(universalArray));
 }
 
 
@@ -266,13 +275,11 @@ function GetActionPriority(action) {
 }
 
 function ConvertToReadableResult(unconverted) {
-    let converted;
-    if (unconverted == undefined || unconverted.size == 0) {
-        converted = "Empty Set";
-    } else {
-        converted = Array.from(unconverted).sort().join(', ');
-    }
-    return converted;
+    return (checkEmpty(unconverted)) ? "Empty Set" : Array.from(unconverted).sort((a, b) => a - b).join(', ');
+}
+
+function checkEmpty(set) {
+    return (set == undefined || set.size == 0) ? true : false;
 }
 
 //----------------------------- Step by Step ---------------------------
@@ -295,8 +302,7 @@ let step = 0;
 function printStep(operation, firstSet, secondSet, result) {
     step++;
 
-    str = '';
-
+    let str = '';
     switch (operation) {
         case '!':
             str = `!${setToString(firstSet)} = ${setToString(result)}`;
@@ -327,12 +333,39 @@ function printStep(operation, firstSet, secondSet, result) {
 
 function setToString(set) {
     let str = '';
-    if (set == undefined || set.size == 0) {
+    if (checkEmpty(set)) {
         return '{ Empty Set }'
     } else {
         for (let num of set) {
-            str += ' ,' + num;
+            str += ', ' + num;
         }
     }
     return '{ ' + str.slice(2, str.length) + ' }';
+}
+
+
+//----------------------------- Check Input ---------------------------
+
+const symbols = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'];
+
+function checkInputSet(key, value) {
+    if (value[value.length - 1] == ',' && symbols.indexOf(key) !== -1) {
+        return true;
+    } else if (symbols.indexOf(value[value.length - 1]) !== -1 && key == ',') {
+        return true;
+    } else if (symbols.indexOf(key) !== -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+const symbols2 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+    'W', 'X', 'Y', 'Z', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete',
+    '-', '+', '/', '!', '(', ')'
+];
+
+function checkInputProblem(key) {
+    return (symbols2.indexOf(key) != -1) ? true : false;
 }
