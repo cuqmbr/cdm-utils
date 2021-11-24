@@ -49,7 +49,7 @@
                 <h2><input type="problem" id="formula" placeholder="!A-C+B/U" /></h2>
                 <div class="buttons">
                     <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate()" />
-                    <input class="button" type="button" id="calculate" value="Step by step" onclick="Evaluate()" />
+                    <input class="button" type="button" id="calculate" value="Step by step" onclick="stepByStep()" />
                 </div>
                 <div class="wrap-result">
                     <div class="input-wrap">
@@ -79,13 +79,9 @@
             </div>
         </div>
 
-        <div class="wrapper hide">
-            <div class="step-by-step">
+        <div class="wrapper hide" id="stepByStep">
+            <div class="step-by-step" id="steps">
                 <h1>Step by step</h1>
-                <div class="input-wrap">
-                    <h1 class="text">1.</h1>
-                    <div class="input"><input type="result" id="step1" readonly/></div>
-                </div>
             </div>
         </div>
     </div>

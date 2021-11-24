@@ -8,34 +8,16 @@ function AddSet() {
         let charNum = 65 + currNum;
         currNum++;
 
-        let delBtn = document.querySelectorAll('#delBtn');
-        if (delBtn[delBtn.length - 1]) {
-            delBtn[delBtn.length - 1].style = "display: none;";
-        }
-
         node = document.getElementById('sets');
         node.insertAdjacentHTML('beforeend', `  <div class="input-wrap">
                                                     <h1 class="text">Set &#${charNum} = </h1>
-                                                    <div class="input"><input type="set" id="set${charNum}" placeholder="Define set"/></div>
+                                                    <div class="input"><input type="set" id="set${charNum - 65}" placeholder="Define set"/></div>
                                                 </div>`);
 
     } else {
         alert('You have reached a limint of available sets');
     }
 }
-
-function DeleteSet(setNum) {
-
-    let setField = document.querySelector(`#setfield${setNum}`);
-    setField.remove();
-    currNum--;
-
-    let delBtn = document.querySelectorAll('#delBtn');
-    if (delBtn[delBtn.length - 1]) {
-        delBtn[delBtn.length - 1].style = "display: inline-block;";
-    }
-}
-
 
 let universalSet = new Set();
 
@@ -106,10 +88,8 @@ function Evaluate() {
 
     let readableResult = ConvertToReadableResult(result);
 
-
     let resultField = document.getElementById('result');
     resultField.value = readableResult;
-
 
     SETSNAMES.clear();
     SETS = new Array();
@@ -187,9 +167,9 @@ function SolveRPNFormula(RPN_Array) {
             if (element == '~' || element == '!') {
 
                 let currSet = stack.pop();
-
                 let result = Complement(currSet);
 
+                printStep('!', currSet, '', result);
                 stack.push(result);
             } else if (element == '∩' || element == '/') {
 
@@ -198,6 +178,7 @@ function SolveRPNFormula(RPN_Array) {
 
                 let result = Intersection(firstSet, secondSet);
 
+                printStep('/', firstSet, secondSet, result);
                 stack.push(result);
             } else if (element == '∪' || element == '+') {
 
@@ -206,6 +187,7 @@ function SolveRPNFormula(RPN_Array) {
 
                 let result = Union(firstSet, secondSet);
 
+                printStep('+', firstSet, secondSet, result);
                 stack.push(result);
             } else if (element == '-') {
 
@@ -214,6 +196,7 @@ function SolveRPNFormula(RPN_Array) {
 
                 let result = Difference(firstSet, secondSet);
 
+                printStep('-', firstSet, secondSet, result);
                 stack.push(result);
             }
         } else {
@@ -224,8 +207,6 @@ function SolveRPNFormula(RPN_Array) {
 
     return stack[0];
 }
-
-
 
 function FetchSets() {
 
@@ -252,7 +233,7 @@ function FetchSets() {
             SETSNAMES.add(String.fromCharCode(65 + i));
             SETS.push(newSet);
         } else {
-            console.log('[WARNING] Some of the sets are not defined');
+            SETS.push(new Set());
         }
     }
 
@@ -260,12 +241,8 @@ function FetchSets() {
 }
 
 
-
-
 function GetSetFromIndex(index) {
-
     let unicode = index.charCodeAt(0);
-
     let num = unicode - 65;
 
     return SETS[num];
@@ -289,7 +266,73 @@ function GetActionPriority(action) {
 }
 
 function ConvertToReadableResult(unconverted) {
-
-    let converted = Array.from(unconverted).sort().join(', ');
+    let converted;
+    if (unconverted == undefined || unconverted.size == 0) {
+        converted = "Empty Set";
+    } else {
+        converted = Array.from(unconverted).sort().join(', ');
+    }
     return converted;
+}
+
+//----------------------------- Step by Step ---------------------------
+
+function stepByStep() {
+    let stepByStep = document.getElementById('stepByStep');
+    let clear = document.getElementById('steps');
+    clear.remove();
+
+    step = 0;
+    stepByStep.classList.remove('hide');
+    stepByStep.insertAdjacentHTML('beforeend', `  <div class="step-by-step" id="steps">
+                                                     <h1>Step by step</h1>
+                                                   </div>`);
+    Evaluate();
+}
+
+let step = 0;
+
+function printStep(operation, firstSet, secondSet, result) {
+    step++;
+
+    str = '';
+
+    switch (operation) {
+        case '!':
+            str = `!${setToString(firstSet)} = ${setToString(result)}`;
+            break;
+
+        case '/':
+            str = `${setToString(firstSet)} / ${setToString(secondSet)} = ${setToString(result)}`;
+            break;
+
+        case '+':
+            str = `${setToString(firstSet)} + ${setToString(secondSet)} = ${setToString(result)}`;
+            break;
+
+        case '-':
+            str = `${setToString(firstSet)} - ${setToString(secondSet)} = ${setToString(result)}`;
+            break;
+
+        default:
+            break;
+    }
+
+    let steps = document.getElementById('steps');
+    steps.insertAdjacentHTML('beforeend', `  <div class="input-wrap">
+                                                <h1 class="text">${step}.  </h1>
+                                                <div class="input"><input type="result" value="${str}" readonly/></div>
+                                            </div>`);
+}
+
+function setToString(set) {
+    let str = '';
+    if (set == undefined || set.size == 0) {
+        return '{ Empty Set }'
+    } else {
+        for (let num of set) {
+            str += ' ,' + num;
+        }
+    }
+    return '{ ' + str.slice(2, str.length) + ' }';
 }
