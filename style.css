@@ -248,6 +248,12 @@ input[type=button] {
     cursor: pointer;
     font-size: 18px;
     font-family: Myriad-R;
+    transition: 1s;
+}
+
+input[type=button]:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    transition: 1s;
 }
 
 input[type=result] {
@@ -321,6 +327,38 @@ input[type=result] {
 
 .hide {
     display: none;
+}
+
+
+/* ------------------Main-------------- */
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 250px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+    transition: 1s;
+}
+
+.calculator img {
+    height: 100px;
+    margin: 20px auto;
+}
+
+.calculator:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: 1s;
+}
+
+.calculator h1 {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 23px;
+    max-width: 200px;
 }
 
 @media screen and (max-device-width: 650px) and (min-device-width: 0px) {
