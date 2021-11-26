@@ -1,78 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CDM Utils</title>
+    <title>Lab-1</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="/style.css">
+
 </head>
+
 <body>
 
-    <nav class="navbar is-white">
-        <div class="navbar-brand">
-            <a href="index.html" class="navbar-item">
-                <!-- <img class="mr-2 py-1" src="assets/cuqmbr.png" alt="Cucumber emoji image"> -->
-                CDM Utils
-                <!-- <img class="ml-2 py-1" src="assets/Shchoholev-logo.png" alt="Cucumber emoji image"> -->
-            </a>
+    <div class="container">
 
-            <a class="navbar-burger" id="burger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </a>
-        </div>
-
-        <div class="navbar-menu" id="nav-links">
-            <din class="navbar-start">
-                <a href="index.html" class="navbar-item">
-                    Home
-                </a>
-            </din>
-            
-            <div class="navbar-end">             
-                <div class="navbar-item has-dropdown is-hoverable" id='dropdown'>
-                    <a class="navbar-link">
-                        Introduction. Set Theory
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a href="pages/lab-1.html" class="navbar-item">
-                            Set Algebra
-                        </a>
-                    </div>
+        <header>
+            <div class="content">
+                <h3><a href="">CDM</a></h3>
+                <div class="theme">
+                    <h3><a href="/Lab-1/index.html">Set Algebra</a></h3>
+                    <h3><a href="/Lab-2/index.html">Boolean Algebra</a></h3>
                 </div>
             </div>
-        </div>
-    </nav>
 
+        </header>
 
-    <div class="columns gapless my-0 has-background-info">
-        <div class="column is-6-desktop is-12-tablet py-0">
-            <section class="hero is-fullheight-with-navbar">
-                <div class="hero-body">
-                    <div class="">
-                        <p class="title">
-                            <span class="icon-text has-text-white">
-                                <span>Hello there</span>
-                                <span class="icon">
-                                    <i class="fas fa-handshake ml-5"></i>
-                                </span>
-                            </span>
-                        </p>
-                        <p class="subtitle has-text-white">The web-site is created for people who want to learn<br> more about Computer Discrete Mathematics</p>
+        <div class="wrapper">
+
+            <div class="wrap-side">
+                <h1>Sets</h1>
+                <div id="sets">
+                    <div class="input-wrap">
+                        <h1 class="text">Set A = </h1>
+                        <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set0" placeholder="1,2,3" /></div>
+                    </div>
+                    <div class="input-wrap">
+                        <h1 class="text">Set B = </h1>
+                        <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set1" placeholder="Define set" /></div>
                     </div>
                 </div>
-            </section>
+                <input class="addSet" type="button" value="Add Set" onclick="AddSet()" />
+            </div>
+
+            <div class="wrap-side">
+                <h1>Problem</h1>
+                <h2><input type="problem" id="formula" onkeydown="return checkInputProblem(event.key)" placeholder="!A-C+B/U" /></h2>
+                <div class="buttons">
+                    <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate(true)" />
+                    <input class="button" type="button" id="calculate" value="Step by step" onclick="stepByStep()" />
+                </div>
+                <div class="wrap-result">
+                    <div class="input-wrap">
+                        <h1 class="text">Result </h1>
+                        <div class="input"><input type="result" id="result" readonly/></div>
+                    </div>
+                </div>
+                <h6 class="description">Define sets: A, B, C, and Universal set. Then write the problem you need to solve. </h6>
+            </div>
         </div>
-    </div>
 
-    
-
-    <script src="js/index.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'></script>
 </body>
+
 </html>
