@@ -3,6 +3,7 @@
     margin: 0;
     border: 0;
 }
+
 *,
 *:before,
 *:after {
@@ -82,8 +83,7 @@ h4,
 h5,
 h6 {
     font-size: 18px;
-    font-weight: 400;
-    font-family: Roboto, sans-serif;
+    font-family: Myriad-L, sans-serif;
     color: #fff;
     line-height: 1.2;
 }
@@ -92,7 +92,16 @@ a {
     color: #fff;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@font-face {
+    font-family: Myriad-L;
+    src: url(fonts/MyriadPro-Light.ttf);
+}
+
+@font-face {
+    font-family: Myriad-R;
+    src: url(fonts/MyriadPro-Regular.woff);
+}
+
 
 /* ------------------------------------------------------------------ */
 
@@ -100,12 +109,17 @@ h1 {
     color: #fff;
     margin: 0 auto;
     margin-bottom: 10px;
+    letter-spacing: 0.75px;
 }
 
 h6 {
     font-weight: 300;
     color: rgba(255, 255, 255, 0.7);
     text-align: center;
+}
+
+h3 {
+    letter-spacing: 0.5px;
 }
 
 h2 {
@@ -192,6 +206,7 @@ body {
 .text {
     margin: auto 0;
     white-space: pre;
+    letter-spacing: 0.75px;
 }
 
 .input {
@@ -206,7 +221,7 @@ input[type=value] {
     border: 3px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     font-size: 18px;
-    font-family: Roboto;
+    font-family: Myriad-R;
     color: #fff;
     margin: 5px auto;
     padding: 0px 0px 0px 10px;
@@ -232,7 +247,13 @@ input[type=button] {
     border-radius: 22px;
     cursor: pointer;
     font-size: 18px;
-    font-family: Roboto;
+    font-family: Myriad-R;
+    transition: 1s;
+}
+
+input[type=button]:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    transition: 1s;
 }
 
 input[type=result] {
@@ -243,7 +264,7 @@ input[type=result] {
     color: white;
     border-radius: 8px;
     font-size: 18px;
-    font-family: Roboto;
+    font-family: Myriad-R;
     cursor: default;
     padding: 0px 0px 0px 10px;
 }
@@ -256,7 +277,7 @@ input[type=result] {
 ::placeholder {
     color: rgba(255, 255, 255, 0.35);
     font-size: 18px;
-    font-family: Roboto;
+    font-family: Myriad-R;
 }
 
 .addSet,
@@ -266,6 +287,7 @@ input[type=result] {
 
 .buttons {
     margin: 0 auto;
+    display: flex;
 }
 
 .button {
@@ -307,6 +329,38 @@ input[type=result] {
     display: none;
 }
 
+
+/* ------------------Main-------------- */
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 250px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+    transition: 1s;
+}
+
+.calculator img {
+    height: 100px;
+    margin: 20px auto;
+}
+
+.calculator:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: 1s;
+}
+
+.calculator h1 {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 23px;
+    max-width: 200px;
+}
+
 @media screen and (max-device-width: 650px) and (min-device-width: 0px) {
     .wrapper {
         flex-direction: column;
@@ -315,5 +369,12 @@ input[type=result] {
     .wrap-side {
         width: 85%;
         margin: 20px auto;
+    }
+    .buttons {
+        flex-direction: column;
+        margin-top: 15px;
+    }
+    .button {
+        margin: 10px auto;
     }
 }

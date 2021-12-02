@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Lab-1</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <title>Set Algebra Calculator</title>
 
     <link rel="stylesheet" href="../style.css">
 
@@ -18,10 +18,10 @@
 
         <header>
             <div class="content">
-                <h3><a href="">CDM</a></h3>
+                <h3><a href="../index.html">CDM</a></h3>
                 <div class="theme">
                     <h3><a href="">Set Algebra</a></h3>
-                    <h3><a href="">Boolean Algebra</a></h3>
+                    <h3><a href="../Boolean-Algebra/index.html">Boolean Algebra</a></h3>
                 </div>
             </div>
 
@@ -34,11 +34,11 @@
                 <div id="sets">
                     <div class="input-wrap">
                         <h1 class="text">Set A = </h1>
-                        <div class="input"><input type="set" id="set0" placeholder="1,2,3" /></div>
+                        <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set0" placeholder="1,2,3" /></div>
                     </div>
                     <div class="input-wrap">
                         <h1 class="text">Set B = </h1>
-                        <div class="input"><input type="set" id="set1" placeholder="Define set" /></div>
+                        <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set1" placeholder="Define set" /></div>
                     </div>
                 </div>
                 <input class="addSet" type="button" value="Add Set" onclick="AddSet()" />
@@ -46,10 +46,10 @@
 
             <div class="wrap-side">
                 <h1>Problem</h1>
-                <h2><input type="problem" id="formula" placeholder="!A-C+B/U" /></h2>
+                <h2><input type="problem" id="formula" onkeydown="return checkInputProblem(event.key)" placeholder="!A-C+B/U" /></h2>
                 <div class="buttons">
-                    <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate()" />
-                    <input class="button" type="button" id="calculate" value="Step by step" onclick="Evaluate()" />
+                    <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate(true)" />
+                    <input class="button" type="button" id="calculate" value="Step by step" onclick="stepByStep()" />
                 </div>
                 <div class="wrap-result">
                     <div class="input-wrap">
@@ -79,13 +79,9 @@
             </div>
         </div>
 
-        <div class="wrapper hide">
-            <div class="step-by-step">
+        <div class="wrapper hide" id="stepByStep">
+            <div class="step-by-step" id="steps">
                 <h1>Step by step</h1>
-                <div class="input-wrap">
-                    <h1 class="text">1.</h1>
-                    <div class="input"><input type="result" id="step1" readonly/></div>
-                </div>
             </div>
         </div>
     </div>

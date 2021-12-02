@@ -8,15 +8,10 @@ function AddSet() {
         let charNum = 65 + currNum;
         currNum++;
 
-        let delBtn = document.querySelectorAll('#delBtn');
-        if (delBtn[delBtn.length - 1]) {
-            delBtn[delBtn.length - 1].style = "display: none;";
-        }
-
         node = document.getElementById('sets');
         node.insertAdjacentHTML('beforeend', `  <div class="input-wrap">
                                                     <h1 class="text">Set &#${charNum} = </h1>
-                                                    <div class="input"><input type="set" id="set${charNum}" placeholder="Define set"/></div>
+                                                    <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set${charNum - 65}" placeholder="Define set"/></div>
                                                 </div>`);
 
     } else {
@@ -24,28 +19,10 @@ function AddSet() {
     }
 }
 
-function DeleteSet(setNum) {
-
-    let setField = document.querySelector(`#setfield${setNum}`);
-    setField.remove();
-    currNum--;
-
-    let delBtn = document.querySelectorAll('#delBtn');
-    if (delBtn[delBtn.length - 1]) {
-        delBtn[delBtn.length - 1].style = "display: inline-block;";
-    }
-}
-
-
 let universalSet = new Set();
 
 function Complement(set) {
-
-    let _complement = new Set();
-
-    _complement = Difference(universalSet, set);
-
-    return _complement;
+    return (checkEmpty(set)) ? universalSet : Difference(universalSet, set);
 }
 
 function Intersection(set1, set2) {
@@ -58,7 +35,7 @@ function Intersection(set1, set2) {
         }
     });
 
-    return _intersection;
+    return sortSet(_intersection);
 }
 
 function Union(set1, set2) {
@@ -69,7 +46,7 @@ function Union(set1, set2) {
         _union.add(element);
     });
 
-    return _union;
+    return sortSet(_union);
 }
 
 function Difference(set1, set2) {
@@ -83,9 +60,20 @@ function Difference(set1, set2) {
         }
     });
 
-    return _difference;
+    return sortSet(_difference);
 }
 
+function sortSet(set) {
+    let entries = [];
+    for (let member of set) {
+        entries.push(+member);
+    }
+    set.clear();
+    for (let entry of entries.sort((a, b) => a - b)) {
+        set.add(entry);
+    }
+    return set;
+};
 
 const OPERATORS = new Set(['~', '!', '∩', '/', '∪', '+', '-']);
 const BRACKETS = new Set(['(', ')']);
@@ -93,7 +81,11 @@ const BRACKETS = new Set(['(', ')']);
 let SETSNAMES = new Set();
 let SETS = new Array();
 
-function Evaluate() {
+function Evaluate(hide = false) {
+    if (hide == true) {
+        let stepByStep = document.getElementById('stepByStep');
+        stepByStep.classList.add('hide');
+    }
 
     FetchSets();
 
@@ -106,10 +98,8 @@ function Evaluate() {
 
     let readableResult = ConvertToReadableResult(result);
 
-
     let resultField = document.getElementById('result');
     resultField.value = readableResult;
-
 
     SETSNAMES.clear();
     SETS = new Array();
@@ -187,9 +177,9 @@ function SolveRPNFormula(RPN_Array) {
             if (element == '~' || element == '!') {
 
                 let currSet = stack.pop();
-
                 let result = Complement(currSet);
 
+                printStep('!', currSet, '', result);
                 stack.push(result);
             } else if (element == '∩' || element == '/') {
 
@@ -198,6 +188,7 @@ function SolveRPNFormula(RPN_Array) {
 
                 let result = Intersection(firstSet, secondSet);
 
+                printStep('/', firstSet, secondSet, result);
                 stack.push(result);
             } else if (element == '∪' || element == '+') {
 
@@ -206,6 +197,7 @@ function SolveRPNFormula(RPN_Array) {
 
                 let result = Union(firstSet, secondSet);
 
+                printStep('+', firstSet, secondSet, result);
                 stack.push(result);
             } else if (element == '-') {
 
@@ -214,18 +206,16 @@ function SolveRPNFormula(RPN_Array) {
 
                 let result = Difference(firstSet, secondSet);
 
+                printStep('-', firstSet, secondSet, result);
                 stack.push(result);
             }
         } else {
-
             stack.push(element);
         }
     }
 
     return stack[0];
 }
-
-
 
 function FetchSets() {
 
@@ -250,22 +240,18 @@ function FetchSets() {
             });
 
             SETSNAMES.add(String.fromCharCode(65 + i));
-            SETS.push(newSet);
+            SETS.push(sortSet(newSet));
         } else {
-            console.log('[WARNING] Some of the sets are not defined');
+            SETS.push(new Set());
         }
     }
 
-    universalSet = new Set(universalArray);
+    universalSet = sortSet(new Set(universalArray));
 }
 
 
-
-
 function GetSetFromIndex(index) {
-
     let unicode = index.charCodeAt(0);
-
     let num = unicode - 65;
 
     return SETS[num];
@@ -289,7 +275,97 @@ function GetActionPriority(action) {
 }
 
 function ConvertToReadableResult(unconverted) {
+    return (checkEmpty(unconverted)) ? "Empty Set" : Array.from(unconverted).sort((a, b) => a - b).join(', ');
+}
 
-    let converted = Array.from(unconverted).sort().join(', ');
-    return converted;
+function checkEmpty(set) {
+    return (set == undefined || set.size == 0) ? true : false;
+}
+
+//----------------------------- Step by Step ---------------------------
+
+function stepByStep() {
+    let stepByStep = document.getElementById('stepByStep');
+    let clear = document.getElementById('steps');
+    clear.remove();
+
+    step = 0;
+    stepByStep.classList.remove('hide');
+    stepByStep.insertAdjacentHTML('beforeend', `  <div class="step-by-step" id="steps">
+                                                     <h1>Step by step</h1>
+                                                   </div>`);
+    Evaluate();
+}
+
+let step = 0;
+
+function printStep(operation, firstSet, secondSet, result) {
+    step++;
+
+    let str = '';
+    switch (operation) {
+        case '!':
+            str = `!${setToString(firstSet)} = ${setToString(result)}`;
+            break;
+
+        case '/':
+            str = `${setToString(firstSet)} / ${setToString(secondSet)} = ${setToString(result)}`;
+            break;
+
+        case '+':
+            str = `${setToString(firstSet)} + ${setToString(secondSet)} = ${setToString(result)}`;
+            break;
+
+        case '-':
+            str = `${setToString(firstSet)} - ${setToString(secondSet)} = ${setToString(result)}`;
+            break;
+
+        default:
+            break;
+    }
+
+    let steps = document.getElementById('steps');
+    steps.insertAdjacentHTML('beforeend', `  <div class="input-wrap">
+                                                <h1 class="text">${step}.  </h1>
+                                                <div class="input"><input type="result" value="${str}" readonly/></div>
+                                            </div>`);
+}
+
+function setToString(set) {
+    let str = '';
+    if (checkEmpty(set)) {
+        return '{ Empty Set }'
+    } else {
+        for (let num of set) {
+            str += ', ' + num;
+        }
+    }
+    return '{ ' + str.slice(2, str.length) + ' }';
+}
+
+
+//----------------------------- Check Input ---------------------------
+
+const symbols = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'];
+
+function checkInputSet(key, value) {
+    if (value[value.length - 1] == ',' && symbols.indexOf(key) !== -1) {
+        return true;
+    } else if (symbols.indexOf(value[value.length - 1]) !== -1 && key == ',') {
+        return true;
+    } else if (symbols.indexOf(key) !== -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+const symbols2 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+    'W', 'X', 'Y', 'Z', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete',
+    '-', '+', '/', '!', '(', ')'
+];
+
+function checkInputProblem(key) {
+    return (symbols2.indexOf(key) != -1) ? true : false;
 }

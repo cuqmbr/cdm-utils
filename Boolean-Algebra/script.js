@@ -16,7 +16,7 @@ function AddValue() {
         node = document.getElementById('values');
         node.insertAdjacentHTML('beforeend', `  <div class="input-wrap">
                                                     <h1 class="text">Value &#${charNum} = </h1>
-                                                    <div class="input"><input type="value" id="value${currNumOfValues - 1}" placeholder="e.g. 0 or 1"/></div>
+                                                    <div class="input"><input type="value" onkeydown="return checkInputValue(event.key, this.value)" id="value${currNumOfValues - 1}" placeholder="e.g. 0 or 1"/></div>
                                                 </div>`);
 
     } else {
@@ -97,6 +97,8 @@ function Evaluate() {
         let stepsActionsArray = StepByStepRPNFormula(formulaRPNArray);
         let stepsResultsArray = result[1];
         
+        console.log(stepsActionsArray);
+        console.log(stepsResultsArray);
         
         for (let i = 0; i < stepsActionsArray.length; i++) {
             const action = stepsActionsArray[i];
@@ -567,4 +569,30 @@ function convertToReadableResult(unconverted) {
 
 function Error(errMsg) {
     console.log(` [ERROR] ${errMsg}`);
+}
+
+//----------------------------- Check Input ---------------------------
+
+const symbols = ['0', '1'];
+const specialSymbols = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'];
+
+function checkInputValue(key, value) {
+    if (value.length < 1 && symbols.indexOf(key) !== -1) {
+        return true;
+    } else if (value.length == 1 && specialSymbols.indexOf(key) !== -1) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+const symbols2 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+    'W', 'X', 'Y', 'Z', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete',
+    '>', '=', '+', '*', '!', '(', ')'
+];
+
+function checkInputProblem(key) {
+    return (symbols2.indexOf(key) != -1) ? true : false;
 }

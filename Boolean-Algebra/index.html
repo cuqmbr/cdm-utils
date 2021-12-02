@@ -18,9 +18,9 @@
 
         <header>
             <div class="content">
-                <h3><a href="">CDM</a></h3>
+                <h3><a href="../index.html">CDM</a></h3>
                 <div class="theme">
-                    <h3><a href="../Lab-1/index.html">Set Algebra</a></h3>
+                    <h3><a href="../Set-Algebra/index.html">Set Algebra</a></h3>
                     <h3><a href="">Boolean Algebra</a></h3>
                 </div>
             </div>
@@ -34,11 +34,11 @@
                 <div id="values">
                     <div class="input-wrap">
                         <h1 class="text">Value A = </h1>
-                        <div class="input"><input type="value" id="value0" placeholder="e.g. 0 or 1" /></div>
+                        <div class="input"><input type="value" id="value0" onkeydown="return checkInputValue(event.key, this.value)" placeholder="e.g. 0 or 1" /></div>
                     </div>
                     <div class="input-wrap">
                         <h1 class="text">Value B = </h1>
-                        <div class="input"><input type="value" id="value1" placeholder="e.g. 0 or 1" /></div>
+                        <div class="input"><input type="value" id="value1" onkeydown="return checkInputValue(event.key, this.value)" placeholder="e.g. 0 or 1" /></div>
                     </div>
                 </div>
                 <input class="addValue" type="button" value="Add Value" onclick="AddValue()" />
@@ -46,7 +46,7 @@
 
             <div class="wrap-side">
                 <h1>Formulua</h1>
-                <h2><input type="problem" id="formula" placeholder="e.g. !A*(B+C)" /></h2>
+                <h2><input type="problem" id="formula" onkeydown="return checkInputProblem(event.key)" placeholder="e.g. !A*(B+C)" /></h2>
                 <div class="buttons">
                     <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate()" />
                     <input class="button" type="button" id="calculate" value="Step by step" onclick="StepByStep()" />
