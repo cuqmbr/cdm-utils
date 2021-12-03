@@ -303,21 +303,26 @@ function printStep(operation, firstSet, secondSet, result) {
     step++;
 
     let str = '';
+    let img = "";
     switch (operation) {
         case '!':
             str = `!${setToString(firstSet)} = ${setToString(result)}`;
+            img = "Complement.png";
             break;
 
         case '/':
             str = `${setToString(firstSet)} / ${setToString(secondSet)} = ${setToString(result)}`;
+            img = "Intersection.png";
             break;
 
         case '+':
             str = `${setToString(firstSet)} + ${setToString(secondSet)} = ${setToString(result)}`;
+            img = "Union.png";
             break;
 
         case '-':
             str = `${setToString(firstSet)} - ${setToString(secondSet)} = ${setToString(result)}`;
+            img = "Substraction.png";
             break;
 
         default:
@@ -328,6 +333,7 @@ function printStep(operation, firstSet, secondSet, result) {
     steps.insertAdjacentHTML('beforeend', `  <div class="input-wrap">
                                                 <h1 class="text">${step}.  </h1>
                                                 <div class="input"><input type="result" value="${str}" readonly/></div>
+                                                <img src="${img}">
                                             </div>`);
 }
 

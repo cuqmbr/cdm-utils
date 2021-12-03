@@ -329,6 +329,11 @@ input[type=result] {
     display: none;
 }
 
+.input-wrap img {
+    margin: auto 10px;
+    height: 50px;
+}
+
 
 /* ------------------Main-------------- */
 
