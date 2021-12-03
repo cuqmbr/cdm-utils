@@ -51,6 +51,9 @@
                     <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate()" />
                     <input class="button" type="button" id="calculate" value="Step by step" onclick="StepByStep()" />
                 </div>
+                <div class="buttons">
+                    <input class="button" type="button" id="calculate" value="Build a Truth Table" onclick="BuildTruthTable()" />
+                </div>
                 <div class="wrap-result">
                     <div class="input-wrap">
                         <h1 class="text">Result </h1>
@@ -86,6 +89,16 @@
         <div class="wrapper hide" id="stepsNode">
             <div class="step-by-step" id="stepsWrapper">
                 <h1>Step by step</h1>
+                <div class="input-wrap" id="input-wrap">
+                    <h1 class="text">1.</h1>
+                    <div class="input"><input type="result" id="step1" readonly/></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="wrapper hide" id="truthTableNode">
+            <div class="step-by-step" id="truthTableWrapper">
+                <h1>Truth Table</h1>
                 <div class="input-wrap" id="input-wrap">
                     <h1 class="text">1.</h1>
                     <div class="input"><input type="result" id="step1" readonly/></div>

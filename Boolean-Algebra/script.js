@@ -82,6 +82,9 @@ function Evaluate() {
     resultField.value = readableResult;
 
 
+    let truthTableNode = document.querySelector('#truthTableNode');    
+    truthTableNode.classList.add('hide');
+
     let stepsNode = document.querySelector('#stepsNode');
     let stepsWrapper = document.querySelector('#stepsWrapper');
     
@@ -105,7 +108,7 @@ function Evaluate() {
             const result = stepsResultsArray[i];
             
             stepsWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
-                                                        <h1 class="text">${i+1}. </h1>
+                                                        <h1 class="text">${i+1}.  </h1>
                                                         <div class="input"><input type="result" id="step1" value="${action} = ${result}" readonly/></div>
                                                     </div>`);
         }
@@ -119,6 +122,7 @@ function StepByStep() {
     stepByStep = true;
     Evaluate();
 }
+
 
 
 function Negation(value) {
@@ -155,10 +159,7 @@ function Equivalence(firstValue, secondValue) {
 
 
 
-
-
-
-function ConvertCharArrayToRPNArray(chars) {
+function ConvertCharArrayToRPNArray(chars, row = 0) {
 
     let _values_stack = new Array();
     let _actions_stack = new Array();
@@ -166,7 +167,10 @@ function ConvertCharArrayToRPNArray(chars) {
     for (let i = 0; i < chars.length; i++) {
         const element = chars[i];
         
-        if (VALUES.has(element)) {
+        if (TTVALUESNAMES.has(element)) {
+
+            _values_stack.push(GetValueFromRow(element, row));
+        } else if (VALUES.has(element)) {
 
             _values_stack.push(element);
         } else if (OPERATORS.has(element)) {
@@ -419,28 +423,16 @@ function StepByStepRPNFormula(RPNArray) {
 }
 
 
+let TTVALUESNAMES = new Set();
+let TTVALUESCONTENTS = new Array();
 
+function BuildTruthTable() {
 
+    let formulaField = document.getElementById('formula')
 
-function InputFormulaFotTruthTable() {
-
-
-    let _formulaString = prompt('>>> ');
-
-
-    if (_formulaString.search('[!,*,+,>,=]') == -1) {
-        Error('The programm cant solve given formula. Do you typed everything right?');
-    }
-
-
-    if (_formulaString.match(/[a-z]/g) != null) {
-        
-        _formulaString.match(/[a-z]/g).forEach (element => {
-            TTVALUESNAMES.add(element);
-        })
-    } else {
-        Error('The programm cant solve given formula. Do you typed everything right?');
-    }
+    formulaField.value.match(/[A-Z]/g).forEach (element => {
+        TTVALUESNAMES.add(element);
+    })
 
     TTVALUESNAMES.forEach(element => {
         TTVALUESCONTENTS.push([element]);
@@ -448,10 +440,8 @@ function InputFormulaFotTruthTable() {
 
 
     let _numColumns =  TTVALUESNAMES.size;
-
     let _numRows = Math.pow(2, _numColumns);
 
-    
 
     let _rowsContent = new Array();
 
@@ -475,12 +465,12 @@ function InputFormulaFotTruthTable() {
         for (let r = 0; r < _numRows; r++) {
 
             if (_zeros) {
-                _rowsContent[r][c] = false;
+                _rowsContent[r][c] = 0;
                 TTVALUESCONTENTS[c].push(false);
             }
 
             if (!_zeros) {
-                _rowsContent[r][c] = true;
+                _rowsContent[r][c] = 1;
                 TTVALUESCONTENTS[c].push(true);
             }
             
@@ -492,45 +482,82 @@ function InputFormulaFotTruthTable() {
 
     // console.log(_rowsContent);
     // console.log(TTVALUESCONTENTS);
+    // console.log(TTVALUESNAMES);
 
 
-
-    let _formulaCharArray = ConvertFormulaToCharArray(_formulaString);
+    let _formulaCharArray = formulaField.value.split('');
 
     let _result = new Array();
+
 
     for (let i = 0; i < _numRows; i++) {
         
         let _formula_RPN_Array = ConvertCharArrayToRPNArray(_formulaCharArray, i + 1);
         _result.push(SolveRPNFormula(_formula_RPN_Array));
     }
-    // console.log(_result);
-    _result.forEach(element => {
-        
-        if (element == undefined) {
-            Error('The programm cant solve given formula. Do you typed everything right?');
-        }
-    });
 
-    ttformula = _formulaString;
+    ttformula = formulaField.value;
     numRows = _numRows;
     rowsContent = _rowsContent;
     truthTable = _result;
 
+    // console.log(_result);
 
-    console.log('');
+    let stepsNode = document.querySelector('#stepsNode');
+    stepsNode.classList.add('hide');
+
+    let truthTableNode = document.querySelector('#truthTableNode');
+    let truthTableWrapper = document.querySelector('#truthTableWrapper');
+    
+    truthTableNode.classList.remove('hide');
+    truthTableWrapper.querySelectorAll('#input-wrap').forEach((element) => {
+        element.remove();
+    });
+
+
+    let valueNames = new Array();
+    TTVALUESNAMES.forEach(element => { valueNames.push(element) });
+
+    truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
+                                                        <h1 class="text"></h1>
+                                                        <div class="input"><input type="result" id="step1" value="${valueNames.join('       ')}        :        Result" readonly/></div>
+                                                     </div>`);
+
     for (let r = 0; r < _numRows; r++) {
         
-        console.log(` ${_rowsContent[r].join(', ')} : ${_result[r]}`);
+        let values = '';
+        
+        for (let i = 0; i < _rowsContent[r].length; i++) {
+            values += _rowsContent[r][i] + '        ';
+        }
+        
+        truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
+                                                        <h1 class="text"></h1>
+                                                        <div class="input"><input type="result" id="step1" value="${values}:            ${convertToReadableResult(_result[r][0])}" readonly/></div>
+                                                    </div>`);
+        
+        // console.log(` ${_rowsContent[r].join(', ')} : ${_result[r][1][0]}`);
     }
-    console.log('');
 
     ClearTruthTableData();
-
-    ReturnToMenu();
 }
 
+function GetValueFromRow(valueIndex, row) {
 
+    for (let i = 0; i < TTVALUESCONTENTS.length; i++) {
+        const element = TTVALUESCONTENTS[i];
+
+        if (element[0] == valueIndex) {
+            return element[row];
+        }       
+    }
+}
+
+function ClearTruthTableData() {
+
+    TTVALUESNAMES.clear();
+    TTVALUESCONTENTS = new Array();
+}
 
 
 const OPERATORS = new Set(['!', '*', '+', '>', '=']);
