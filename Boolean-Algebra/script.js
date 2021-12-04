@@ -66,6 +66,7 @@ function Evaluate() {
     let formulaValuesRPNArray = ConvertCharsToValues(formulaRPNArray);
 
     let result = SolveRPNFormula(formulaValuesRPNArray);
+    if (result == undefined) return;
     let readableResult = ConvertToReadableResult(result);
 
     let resultField = document.getElementById('result');
@@ -272,6 +273,7 @@ function StepByStep() {
     let formulaValuesRPNArray = ConvertCharsToValues(formulaRPNArray);
 
     let result = SolveRPNFormula(formulaValuesRPNArray);
+    if (result == undefined) return;
     let readableResult = ConvertToReadableResult(result);
 
     let resultField = document.getElementById('result');
