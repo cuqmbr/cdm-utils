@@ -18,9 +18,9 @@
 
         <header>
             <div class="content">
-                <h3><a href="../index.html">CDM</a></h3>
+                <h3><a href="..">CDM</a></h3>
                 <div class="theme">
-                    <h3><a href="../Set-Algebra/index.html">Set Algebra</a></h3>
+                    <h3><a href="../Set-Algebra">Set Algebra</a></h3>
                     <h3><a href="">Boolean Algebra</a></h3>
                 </div>
             </div>
@@ -53,6 +53,10 @@
                 </div>
                 <div class="buttons">
                     <input class="button" type="button" id="calculate" value="Build a Truth Table" onclick="BuildTruthTable()" />
+                </div>
+                <div class="buttons">
+                    <input class="button" type="button" id="calculate" value="Make PDNF" onclick="BuildPDNF()" />
+                    <input class="button" type="button" id="calculate" value="Make PCNF" onclick="BuildPCNF()" />
                 </div>
                 <div class="wrap-result">
                     <div class="input-wrap">
@@ -100,7 +104,24 @@
             <div class="step-by-step" id="truthTableWrapper">
                 <h1>Truth Table</h1>
                 <div class="input-wrap" id="input-wrap">
-                    <h1 class="text">1.</h1>
+                    <div class="input"><input type="result" readonly/></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper hide" id="pdnfNode">
+            <div class="step-by-step" id="pdnfWrapper">
+                <h1>Perfect Disjunctive Normal Form</h1>
+                <div class="input-wrap" id="input-wrap">
+                    <div class="input"><input type="result" id="step1" readonly/></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper hide" id="pcnfNode">
+            <div class="step-by-step" id="pcnfWrapper">
+                <h1>Perfect Conjunctive Normal Form</h1>
+                <div class="input-wrap" id="input-wrap">
                     <div class="input"><input type="result" id="step1" readonly/></div>
                 </div>
             </div>

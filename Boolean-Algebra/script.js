@@ -1,3 +1,5 @@
+//#region Basic Functionallity
+
 let maxNumOfValues = 26;
 let currNumOfValues = 2;
 
@@ -23,19 +25,6 @@ function AddValue() {
         alert('You have reached a limint of available values');
     }        
 }
-
-function DeleteValue(valNum) {
-    
-    let valueField = document.querySelector(`#valueField${valNum}`);
-    valueField.remove();
-    currNumOfValues--;
-
-    let delBtn = document.querySelectorAll('#delBtn');
-    if (delBtn[delBtn.length - 1]) {
-        delBtn[delBtn.length - 1].style="display: inline-block;";
-    }
-}
-
 
 let VALUES = new Set();
 let userValues = new Array();
@@ -63,67 +52,29 @@ function FetchValues() {
     }
 }
 
-let stepByStep = false;
-
+// Evaluate given formula and display the result
 function Evaluate() {
     
+    ToggleAll(false);
+
     FetchValues();
 
     let formulaField = document.getElementById('formula');
 
     let formulaChraArray = formulaField.value.split('');
-    let formulaRPNArray = ConvertCharArrayToRPNArray(formulaChraArray);
-    let formulaValuesRPNArray = ConvertLettersToValues(formulaRPNArray);
+    let formulaRPNArray = ConvertToRPNArray(formulaChraArray);
+    let formulaValuesRPNArray = ConvertCharsToValues(formulaRPNArray);
 
     let result = SolveRPNFormula(formulaValuesRPNArray);
-    let readableResult = convertToReadableResult(result[0]);
+    let readableResult = ConvertToReadableResult(result);
 
     let resultField = document.getElementById('result');
     resultField.value = readableResult;
-
-
-    let truthTableNode = document.querySelector('#truthTableNode');    
-    truthTableNode.classList.add('hide');
-
-    let stepsNode = document.querySelector('#stepsNode');
-    let stepsWrapper = document.querySelector('#stepsWrapper');
-    
-    stepsNode.classList.add('hide');
-    stepsWrapper.querySelectorAll('#input-wrap').forEach((element) => {
-        element.remove();
-    });
-
-    if (stepByStep) {
-
-        stepsNode.classList.remove('hide');
-
-        let stepsActionsArray = StepByStepRPNFormula(formulaRPNArray);
-        let stepsResultsArray = result[1];
-        
-        console.log(stepsActionsArray);
-        console.log(stepsResultsArray);
-        
-        for (let i = 0; i < stepsActionsArray.length; i++) {
-            const action = stepsActionsArray[i];
-            const result = stepsResultsArray[i];
-            
-            stepsWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
-                                                        <h1 class="text">${i+1}.  </h1>
-                                                        <div class="input"><input type="result" id="step1" value="${action} = ${result}" readonly/></div>
-                                                    </div>`);
-        }
-
-        stepByStep = false;
-    }
 }
 
-function StepByStep() {
+//#endregion
 
-    stepByStep = true;
-    Evaluate();
-}
-
-
+//#region Boolean Operations
 
 function Negation(value) {
 
@@ -157,9 +108,11 @@ function Equivalence(firstValue, secondValue) {
     }
 }
 
+//#endregion
 
+//#region Essential Functions
 
-function ConvertCharArrayToRPNArray(chars, row = 0) {
+function ConvertToRPNArray(chars) {
 
     let _values_stack = new Array();
     let _actions_stack = new Array();
@@ -167,10 +120,7 @@ function ConvertCharArrayToRPNArray(chars, row = 0) {
     for (let i = 0; i < chars.length; i++) {
         const element = chars[i];
         
-        if (TTVALUESNAMES.has(element)) {
-
-            _values_stack.push(GetValueFromRow(element, row));
-        } else if (VALUES.has(element)) {
+        if (!OPERATORS.has(element) && !BRACKETS.has(element)) {
 
             _values_stack.push(element);
         } else if (OPERATORS.has(element)) {
@@ -220,7 +170,7 @@ function ConvertCharArrayToRPNArray(chars, row = 0) {
     return _values_stack;
 }
 
-function ConvertLettersToValues(RPNArray) {
+function ConvertCharsToValues(RPNArray) {
 
     let valuesRNPArray = new Array();
 
@@ -254,7 +204,7 @@ function SolveRPNFormula(valuesRPNArray) {
                 let _result = Negation(_currValue);
 
                 _stack.push(_result);
-                stepByStepResults.push(convertToReadableResult(_result));
+                stepByStepResults.push(ConvertToReadableResult(_result));
      
             } else if (element == '*') {
                 
@@ -264,7 +214,7 @@ function SolveRPNFormula(valuesRPNArray) {
                 let _result = Conjunction(_firstValue, _secondValue);
                 
                 _stack.push(_result);
-                stepByStepResults.push(convertToReadableResult(_result));
+                stepByStepResults.push(ConvertToReadableResult(_result));
                 
             } else if (element == '+') {
 
@@ -274,7 +224,7 @@ function SolveRPNFormula(valuesRPNArray) {
                 let _result = Disjunction(_firstValue, _secondValue);
                 
                 _stack.push(_result);
-                stepByStepResults.push(convertToReadableResult(_result));
+                stepByStepResults.push(ConvertToReadableResult(_result));
                 
             } else if (element == '>') {
 
@@ -284,7 +234,7 @@ function SolveRPNFormula(valuesRPNArray) {
                 let _result = Disjunction(Negation(_firstValue), _secondValue);
                 
                 _stack.push(_result);
-                stepByStepResults.push(convertToReadableResult(_result));
+                stepByStepResults.push(ConvertToReadableResult(_result));
                 
             } else if (element == '=') {
 
@@ -294,7 +244,7 @@ function SolveRPNFormula(valuesRPNArray) {
                 let _result = Equivalence(_firstValue, _secondValue);
                 
                 _stack.push(_result);
-                stepByStepResults.push(convertToReadableResult(_result));
+                stepByStepResults.push(ConvertToReadableResult(_result));
                 
             }
         } else {
@@ -303,262 +253,490 @@ function SolveRPNFormula(valuesRPNArray) {
         }
     }
     
-    return [_stack[0], stepByStepResults];
+    return _stack[0];
 }
 
-function StepByStepRPNFormula(RPNArray) {
+//#endregion
 
-    let stepsArray = new Array();
+//#region Step By Step
 
-    let _stack =  new Array();
+// Evalutae formula and display steps in the interface
+function StepByStep() {
 
-    for (let i = 0; i < RPNArray.length; i++) {
-        const element = RPNArray[i]; 
+    FetchValues();
 
-        if (OPERATORS.has(element)) {
+    let formulaField = document.getElementById('formula');
 
-            if (element == '!') {
+    let formulaChraArray = formulaField.value.split('');
+    let formulaRPNArray = ConvertToRPNArray(formulaChraArray);
+    let formulaValuesRPNArray = ConvertCharsToValues(formulaRPNArray);
+
+    let result = SolveRPNFormula(formulaValuesRPNArray);
+    let readableResult = ConvertToReadableResult(result);
+
+    let resultField = document.getElementById('result');
+    resultField.value = readableResult;
+    
+    let stepsActionsArray = GetCharSteps(formulaRPNArray);
+    let stepsResultsArray = GetStepsResults(formulaValuesRPNArray);
+        
+    // console.log(stepsActionsArray);
+    // console.log(stepsResultsArray);
+    
+    if (stepsResultsArray.length > 0) {
+
+        ToggleAll(false);
+        ToggleSteps(true);
+    
+        for (let i = 0; i < stepsActionsArray.length; i++) {
+            const action = stepsActionsArray[i];
+            const result = stepsResultsArray[i];
+        
                 
-                let _currValue = _stack.pop();
+            stepsWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
+                                                        <h1 class="text">${i+1}.  </h1>
+                                                        <div class="input"><input type="result" value="${action} = ${result}" readonly/></div>
+                                                    </div>`);
+        }
+    }
 
-                let _result;
+    // Get steps in form of characters
+    function GetCharSteps(RPNArray) {
 
-                if (_currValue.length <= 2) {
-                    _result = '!'.concat(_currValue);
-                } else {
-                    _result = '!'.concat('(').concat(_currValue).concat(')');
-                }
-
-                _stack.push(_result);
-                stepsArray.push([_result]);
-     
-            } else if (element == '*') {
-                
-                let _secondValue = _stack.pop();
-                let _firstValue = _stack.pop();
-                
-                let _result;
-
-                let _firstHasExclemMark = Boolean(_firstValue.split('').filter(x => x === '!').length);
-                let _secondHasExclemMark = Boolean(_secondValue.split('').filter(x => x === '!').length);
-
-                if (_firstValue.length <= 2 && _secondValue.length <= 2) {
-                    _result = _firstValue.concat('*').concat(_secondValue);
-                } else if (_firstValue.length <= 2 && _secondValue.length > 2) {
+        let stepsArray = new Array();
+    
+        let _stack =  new Array();
+    
+        for (let i = 0; i < RPNArray.length; i++) {
+            const element = RPNArray[i]; 
+    
+            if (OPERATORS.has(element)) {
+    
+                if (element == '!') {
                     
-                    if (_secondHasExclemMark) {
-
-                        _result = _firstValue.concat('*').concat(_secondValue);
+                    let _currValue = _stack.pop();
+    
+                    let _result;
+    
+                    if (_currValue.length <= 2) {
+                        _result = '!'.concat(_currValue);
                     } else {
-                        _result = 
-                        _firstValue.concat('*').concat('(').concat(_secondValue).concat(')');
+                        _result = '!'.concat('(').concat(_currValue).concat(')');
                     }
-                } else if (_firstValue.length > 2 && _secondValue.length <= 2) {
-                   
-                    if (_firstHasExclemMark) {
-                        
+    
+                    _stack.push(_result);
+                    stepsArray.push([_result]);
+         
+                } else if (element == '*') {
+                    
+                    let _secondValue = _stack.pop();
+                    let _firstValue = _stack.pop();
+                    
+                    let _result;
+    
+                    let _firstHasExclemMark = Boolean(_firstValue.split('').filter(x => x === '!').length);
+                    let _secondHasExclemMark = Boolean(_secondValue.split('').filter(x => x === '!').length);
+    
+                    if (_firstValue.length <= 2 && _secondValue.length <= 2) {
                         _result = _firstValue.concat('*').concat(_secondValue);
-                    } else {
+                    } else if (_firstValue.length <= 2 && _secondValue.length > 2) {
                         
-                        _result = '('.concat(_firstValue).concat(')').concat('*').concat(_secondValue);
-                    }
-                } else if (_firstValue.length > 2 && _secondValue.length > 2) {
-                   
-                    if (_firstHasExclemMark && _secondHasExclemMark) {
-                        
-                        _result = _firstValue.concat('*').concat(_secondValue);
-                    } if (_firstHasExclemMark && !_secondHasExclemMark) {
-                        
-                        _result = _firstValue.concat('*').concat('(').concat(_secondValue).concat(')');
-                    } else if (!_firstHasExclemMark && _secondHasExclemMark) {
+                        if (_secondHasExclemMark) {
+    
+                            _result = _firstValue.concat('*').concat(_secondValue);
+                        } else {
+                            _result = 
+                            _firstValue.concat('*').concat('(').concat(_secondValue).concat(')');
+                        }
+                    } else if (_firstValue.length > 2 && _secondValue.length <= 2) {
                        
-                        _result = '('.concat(_firstValue).concat(')').concat('*').concat(_secondValue);;
-                    } else {
+                        if (_firstHasExclemMark) {
+                            
+                            _result = _firstValue.concat('*').concat(_secondValue);
+                        } else {
+                            
+                            _result = '('.concat(_firstValue).concat(')').concat('*').concat(_secondValue);
+                        }
+                    } else if (_firstValue.length > 2 && _secondValue.length > 2) {
                        
-                        _result = '('.concat(_firstValue).concat(')').concat('*').concat('(').concat(_secondValue).concat(')');
+                        if (_firstHasExclemMark && _secondHasExclemMark) {
+                            
+                            _result = _firstValue.concat('*').concat(_secondValue);
+                        } if (_firstHasExclemMark && !_secondHasExclemMark) {
+                            
+                            _result = _firstValue.concat('*').concat('(').concat(_secondValue).concat(')');
+                        } else if (!_firstHasExclemMark && _secondHasExclemMark) {
+                           
+                            _result = '('.concat(_firstValue).concat(')').concat('*').concat(_secondValue);;
+                        } else {
+                           
+                            _result = '('.concat(_firstValue).concat(')').concat('*').concat('(').concat(_secondValue).concat(')');
+                        }
                     }
+                    
+                    _stack.push(_result);
+                    stepsArray.push([_result]);
+                    
+                } else if (element == '+') {
+    
+                    let _secondValue = _stack.pop();
+                    let _firstValue = _stack.pop();
+                    
+                    let _result = _firstValue.concat('+').concat(_secondValue);
+                    
+                    _stack.push(_result);
+                    stepsArray.push([_result]);
+                    
+                } else if (element == '>') {
+    
+                    let _secondValue = _stack.pop();
+                    let _firstValue = _stack.pop();
+                    
+                    let _result = _firstValue.concat('>').concat(_secondValue);
+                    
+                    _stack.push(_result);
+                    stepsArray.push([_result]);
+                    
+                } else if (element == '=') {
+    
+                    let _secondValue = _stack.pop();
+                    let _firstValue = _stack.pop();
+                    
+                    let _result = _firstValue.concat('=').concat(_secondValue);
+                    
+                    _stack.push(_result);
+                    stepsArray.push([_result]);
                 }
-                
-                _stack.push(_result);
-                stepsArray.push([_result]);
-                
-            } else if (element == '+') {
-
-                let _secondValue = _stack.pop();
-                let _firstValue = _stack.pop();
-                
-                let _result = _firstValue.concat('+').concat(_secondValue);
-                
-                _stack.push(_result);
-                stepsArray.push([_result]);
-                
-            } else if (element == '>') {
-
-                let _secondValue = _stack.pop();
-                let _firstValue = _stack.pop();
-                
-                let _result = _firstValue.concat('>').concat(_secondValue);
-                
-                _stack.push(_result);
-                stepsArray.push([_result]);
-                
-            } else if (element == '=') {
-
-                let _secondValue = _stack.pop();
-                let _firstValue = _stack.pop();
-                
-                let _result = _firstValue.concat('=').concat(_secondValue);
-                
-                _stack.push(_result);
-                stepsArray.push([_result]);
+            } else {
+    
+                _stack.push(element);
             }
-        } else {
-
-            _stack.push(element);
         }
+        
+        return stepsArray;
+        // return _stack[0];
     }
     
-    return stepsArray;
-    // return _stack[0];
+    // Get a result of each step
+    function GetStepsResults(valuesRPNArray) {
+    
+        let stepByStepResults = new Array();
+    
+        let _stack =  new Array();
+    
+        for (let i = 0; i < valuesRPNArray.length; i++) {
+            const element = valuesRPNArray[i]; 
+    
+            if (OPERATORS.has(element)) {
+    
+                if (element == '!') {
+                    
+                    let _currValue = _stack.pop();
+    
+                    let _result = Negation(_currValue);
+    
+                    _stack.push(_result);
+                    stepByStepResults.push(ConvertToReadableResult(_result));
+         
+                } else if (element == '*') {
+                    
+                    let _secondValue = _stack.pop();
+                    let _firstValue = _stack.pop();
+                    
+                    let _result = Conjunction(_firstValue, _secondValue);
+                    
+                    _stack.push(_result);
+                    stepByStepResults.push(ConvertToReadableResult(_result));
+                    
+                } else if (element == '+') {
+    
+                    let _secondValue = _stack.pop();
+                    let _firstValue = _stack.pop();
+                    
+                    let _result = Disjunction(_firstValue, _secondValue);
+                    
+                    _stack.push(_result);
+                    stepByStepResults.push(ConvertToReadableResult(_result));
+                    
+                } else if (element == '>') {
+    
+                    let _secondValue = _stack.pop();
+                    let _firstValue = _stack.pop();
+                    
+                    let _result = Disjunction(Negation(_firstValue), _secondValue);
+                    
+                    _stack.push(_result);
+                    stepByStepResults.push(ConvertToReadableResult(_result));
+                    
+                } else if (element == '=') {
+    
+                    let _secondValue = _stack.pop();
+                    let _firstValue = _stack.pop();
+                    
+                    let _result = Equivalence(_firstValue, _secondValue);
+                    
+                    _stack.push(_result);
+                    stepByStepResults.push(ConvertToReadableResult(_result));
+                    
+                }
+            } else {
+    
+                _stack.push(element);
+            }
+        }
+        
+        return stepByStepResults;
+    }
 }
 
+//#endregion
 
-let TTVALUESNAMES = new Set();
-let TTVALUESCONTENTS = new Array();
+//#region Truth Table
 
+// Generate truth table and display it in the interface
 function BuildTruthTable() {
 
-    let formulaField = document.getElementById('formula')
+    let header = document.getElementById('formula').value.match(/[A-Z]/g);
+    let matrix = GenerateTruthTable();
+    DisplayTruthTable(matrix, header);
+}
 
-    formulaField.value.match(/[A-Z]/g).forEach (element => {
-        TTVALUESNAMES.add(element);
-    })
+// Generate truth table
+function GenerateTruthTable() {
 
-    TTVALUESNAMES.forEach(element => {
-        TTVALUESCONTENTS.push([element]);
-    })
-
-
-    let _numColumns =  TTVALUESNAMES.size;
-    let _numRows = Math.pow(2, _numColumns);
-
-
-    let _rowsContent = new Array();
-
-    for (let r = 0; r < _numRows; r++) {
-        
-        _rowsContent.push(new Array());
-
-        for (let c = 0; c < _numColumns; c++) {
-            
-            _rowsContent[r].push(false);
-        }
-    }
-
-
-    for (let c = 0; c < _numColumns; c++) {
-        
-        let _period = Math.pow(2, _numColumns) / Math.pow(2, c+1);
-
-        let _zeros = true;
-
-        for (let r = 0; r < _numRows; r++) {
-
-            if (_zeros) {
-                _rowsContent[r][c] = 0;
-                TTVALUESCONTENTS[c].push(false);
-            }
-
-            if (!_zeros) {
-                _rowsContent[r][c] = 1;
-                TTVALUESCONTENTS[c].push(true);
-            }
-            
-            if ((r + 1) % _period == 0) {
-                _zeros = !_zeros;
-            }
-        }
-    }
-
-    // console.log(_rowsContent);
-    // console.log(TTVALUESCONTENTS);
-    // console.log(TTVALUESNAMES);
-
-
-    let _formulaCharArray = formulaField.value.split('');
-
-    let _result = new Array();
-
-
-    for (let i = 0; i < _numRows; i++) {
-        
-        let _formula_RPN_Array = ConvertCharArrayToRPNArray(_formulaCharArray, i + 1);
-        _result.push(SolveRPNFormula(_formula_RPN_Array));
-    }
-
-    ttformula = formulaField.value;
-    numRows = _numRows;
-    rowsContent = _rowsContent;
-    truthTable = _result;
-
-    // console.log(_result);
-
-    let stepsNode = document.querySelector('#stepsNode');
-    stepsNode.classList.add('hide');
-
-    let truthTableNode = document.querySelector('#truthTableNode');
-    let truthTableWrapper = document.querySelector('#truthTableWrapper');
+    let formulaField = document.getElementById('formula');
     
-    truthTableNode.classList.remove('hide');
-    truthTableWrapper.querySelectorAll('#input-wrap').forEach((element) => {
-        element.remove();
-    });
+    let numColumns = formulaField.value.match(/[A-Z]/g).length;
+    let numRows = Math.pow(2, numColumns);
 
+    // Initializing the truthTable
+    let truthTable = new Array();
 
-    let valueNames = new Array();
-    TTVALUESNAMES.forEach(element => { valueNames.push(element) });
-
-    truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
-                                                        <h1 class="text"></h1>
-                                                        <div class="input"><input type="result" id="step1" value="${valueNames.join('       ')}        :        Result" readonly/></div>
-                                                     </div>`);
-
-    for (let r = 0; r < _numRows; r++) {
+    for (let i = 0; i < numRows; i++) {
+        truthTable.push(new Array(numColumns + 1));
+    }
+    
+    for (let c = 0; c < numColumns; c++) {
         
-        let values = '';
+        let period = Math.pow(2, numColumns) / Math.pow(2, c+1);
+        let zeros = true;
         
-        for (let i = 0; i < _rowsContent[r].length; i++) {
-            values += _rowsContent[r][i] + '        ';
+        for (let r = 0; r < numRows; r++) {
+            
+            if (zeros) {
+                truthTable[r][c] = false;
+            }
+            
+            if (!zeros) {
+                truthTable[r][c] = true;
+            }
+                        
+            if ((r+1) % period == 0) {
+                zeros = !zeros;
+            }
         }
-        
+    }
+
+    //Evaluate the result for each row
+    for (let r = 0; r < truthTable.length; r++) {
+        truthTable[r][numColumns] = SolveRPNFormula(ConvertToRPNArray(formulaField.value.split('').map(x => x = ConvertCharsToValues(x, r))));
+    }
+
+    //Additional functions
+    function ConvertCharsToValues(index, row) {
+        return formulaField.value.match(/[A-Z]/g).indexOf(index) != -1 ? truthTable[row][formulaField.value.match(/[A-Z]/g).indexOf(index)] : index;
+    }
+
+    return truthTable;
+}
+
+// Display truth table in the interface
+function DisplayTruthTable(matrix, header) {
+
+        //Display the truth table in the interface
+        ToggleAll(false);
+        ToggleTruthTable(true);
+    
+        let truthTableWrapper = document.querySelector('#truthTableWrapper');
+    
         truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
-                                                        <h1 class="text"></h1>
-                                                        <div class="input"><input type="result" id="step1" value="${values}:            ${convertToReadableResult(_result[r][0])}" readonly/></div>
-                                                    </div>`);
-        
-        // console.log(` ${_rowsContent[r].join(', ')} : ${_result[r][1][0]}`);
+                                                            <h1 class="text"></h1>
+                                                            <div class="input"><input type="result" value="${header.join('        ')}    :    Result" readonly/></div>
+                                                        </div>`);
+    
+        for (let r = 0; r < matrix.length; r++) {
+    
+            let result = matrix[r].pop();
+    
+            truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
+                                                            <h1 class="text"></h1>
+                                                            <div class="input"><input type="result" value="${matrix[r].map(x => x = ConvertToReadableResult(x)).join('        ')}     :       ${ConvertToReadableResult(result)}" readonly/></div>
+                                                        </div>`);
+        }
+}
+
+//#endregion
+
+//#region PDNF & PCNF
+
+function BuildPDNF() {
+
+    DisplayPDNF(GeneratePDNF());
+}
+
+function GeneratePDNF() {
+
+    let pdnf = '';
+    let mintermCount = 0;
+
+    let header = document.getElementById('formula').value.match(/[A-Z]/g);
+    let matrix = GenerateTruthTable();
+
+    for (let r = 0; r < matrix.length; r++) {
+        if (matrix[r][matrix[r].length - 1] == 1) {
+            
+            pdnf += mintermCount != 0 ? '+(' : '(';
+
+            for (let c = 0; c < matrix[r].length - 1; c++) {
+                pdnf += matrix[r][c] == 0 ? '!' + header[c] : header[c];
+                pdnf += c != matrix[r].length - 2 ? '*' : '';
+            }
+            
+            pdnf += ')';
+            mintermCount++;
+        }
     }
 
-    ClearTruthTableData();
+    return pdnf;
 }
 
-function GetValueFromRow(valueIndex, row) {
+function DisplayPDNF(pdnf) {
 
-    for (let i = 0; i < TTVALUESCONTENTS.length; i++) {
-        const element = TTVALUESCONTENTS[i];
+    ToggleAll(false);
+    TogglePDNF(true);
 
-        if (element[0] == valueIndex) {
-            return element[row];
-        }       
+    let Wrapper = document.querySelector('#pdnfWrapper');
+    
+    Wrapper.insertAdjacentHTML('beforeend', ` <div class="input-wrap" id="input-wrap">
+                                                            <h1 class="text"></h1>
+                                                            <div class="input"><input type="result" value="${pdnf}" readonly/></div>
+                                                        </div>`);
+}
+
+
+function BuildPCNF() {
+
+    DisplayPCNF(GeneratePCNF());
+}
+
+function GeneratePCNF() {
+
+    let pcnf = '';
+    let maxtermCount = 0;
+
+    let header = document.getElementById('formula').value.match(/[A-Z]/g);
+    let matrix = GenerateTruthTable();
+
+    for (let r = 0; r < matrix.length; r++) {
+        if (matrix[r][matrix[r].length - 1] == 0) {
+
+            pcnf += maxtermCount != 0 ? '*(' : '(';
+
+            for (let c = 0; c < matrix[r].length - 1; c++) {
+                pcnf += matrix[r][c] == 1 ? '!' + header[c] : header[c];
+                pcnf += c != matrix[r].length - 2 ? '+' : '';
+            }
+
+            pcnf += ')';
+            maxtermCount++;
+        }
+    }
+
+    return pcnf;
+}
+
+function DisplayPCNF(pcnf) {
+
+    ToggleAll(false);
+    TogglePCNF(true);
+
+    let Wrapper = document.querySelector('#pcnfWrapper');
+    
+    Wrapper.insertAdjacentHTML('beforeend', ` <div class="input-wrap" id="input-wrap">
+                                                            <h1 class="text"></h1>
+                                                            <div class="input"><input type="result" value="${pcnf}" readonly/></div>
+                                                        </div>`);
+}
+//#endregion
+
+//#region Additional Functions (Essential too)
+
+function ToggleSteps(show) {
+
+    let Node = document.querySelector('#stepsNode');
+    let Wrapper = document.querySelector('#stepsWrapper');
+    
+    if (show) {
+        Node.classList.remove('hide');
+        Wrapper.querySelectorAll('#input-wrap').forEach((element) => {
+            element.remove();
+        });
+    } else {
+        Node.classList.add('hide');
     }
 }
 
-function ClearTruthTableData() {
+function ToggleTruthTable(show) {
 
-    TTVALUESNAMES.clear();
-    TTVALUESCONTENTS = new Array();
+    let Node = document.querySelector('#truthTableNode');
+    let Wrapper = document.querySelector('#truthTableWrapper');
+    
+    if (show) {
+        Node.classList.remove('hide');
+        Wrapper.querySelectorAll('#input-wrap').forEach((element) => {
+            element.remove();
+        });
+    } else {
+        Node.classList.add('hide');
+    }
 }
 
+function TogglePDNF(show) {
+
+    let Node = document.querySelector('#pdnfNode');
+    let Wrapper = document.querySelector('#pdnfWrapper');
+    
+    if (show) {
+        Node.classList.remove('hide');
+        Wrapper.querySelectorAll('#input-wrap').forEach((element) => {
+            element.remove();
+        });
+    } else {
+        Node.classList.add('hide');
+    }
+}
+
+function TogglePCNF(show) {
+
+    let Node = document.querySelector('#pcnfNode');
+    let Wrapper = document.querySelector('#pcnfWrapper');
+    
+    if (show) {
+        Node.classList.remove('hide');
+        Wrapper.querySelectorAll('#input-wrap').forEach((element) => {
+            element.remove();
+        });
+    } else {
+        Node.classList.add('hide');
+    }
+}
+
+function ToggleAll(show) {
+    ToggleSteps(show);
+    ToggleTruthTable(show);
+    TogglePDNF(show);
+    TogglePCNF(show);
+}
 
 const OPERATORS = new Set(['!', '*', '+', '>', '=']);
 const BRACKETS = new Set(['(', ')']);
@@ -589,7 +767,7 @@ function GetValueFromIndex(valueIndex) {
     }
 }
 
-function convertToReadableResult(unconverted) {
+function ConvertToReadableResult(unconverted) {
 
     return unconverted === true ? '1' : '0';
 }
@@ -598,7 +776,9 @@ function Error(errMsg) {
     console.log(` [ERROR] ${errMsg}`);
 }
 
-//----------------------------- Check Input ---------------------------
+//#endregion
+
+//#region Check Input
 
 const symbols = ['0', '1'];
 const specialSymbols = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'];
@@ -623,3 +803,5 @@ const symbols2 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
 function checkInputProblem(key) {
     return (symbols2.indexOf(key) != -1) ? true : false;
 }
+
+//#endregion
