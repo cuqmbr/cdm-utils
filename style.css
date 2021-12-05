@@ -382,4 +382,8 @@ input[type=result] {
     .button {
         margin: 10px auto;
     }
+    .step-by-step {
+        width: auto;
+        text-align: center;
+    }
 }
