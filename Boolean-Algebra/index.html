@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Boolean Algebra</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <title>Boolean Algebra Calculator</title>
 
     <link rel="stylesheet" href="../style.css">
 
@@ -18,9 +18,9 @@
 
         <header>
             <div class="content">
-                <h3><a href="">CDM</a></h3>
+                <h3><a href="..">CDM</a></h3>
                 <div class="theme">
-                    <h3><a href="../Lab-1/index.html">Set Algebra</a></h3>
+                    <h3><a href="../Set-Algebra">Set Algebra</a></h3>
                     <h3><a href="">Boolean Algebra</a></h3>
                 </div>
             </div>
@@ -34,11 +34,11 @@
                 <div id="values">
                     <div class="input-wrap">
                         <h1 class="text">Value A = </h1>
-                        <div class="input"><input type="value" id="value0" placeholder="e.g. 0 or 1" /></div>
+                        <div class="input"><input type="value" id="value0" onkeydown="return checkInputValue(event.key, this.value)" placeholder="e.g. 0 or 1" /></div>
                     </div>
                     <div class="input-wrap">
                         <h1 class="text">Value B = </h1>
-                        <div class="input"><input type="value" id="value1" placeholder="e.g. 0 or 1" /></div>
+                        <div class="input"><input type="value" id="value1" onkeydown="return checkInputValue(event.key, this.value)" placeholder="e.g. 0 or 1" /></div>
                     </div>
                 </div>
                 <input class="addValue" type="button" value="Add Value" onclick="AddValue()" />
@@ -46,10 +46,17 @@
 
             <div class="wrap-side">
                 <h1>Formulua</h1>
-                <h2><input type="problem" id="formula" placeholder="e.g. !A*(B+C)" /></h2>
+                <h2><input type="problem" id="formula" onkeydown="return checkInputProblem(event.key)" placeholder="e.g. !A*(B+C)" /></h2>
                 <div class="buttons">
                     <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate()" />
                     <input class="button" type="button" id="calculate" value="Step by step" onclick="StepByStep()" />
+                </div>
+                <div class="buttons">
+                    <input class="button" type="button" id="calculate" value="Build a Truth Table" onclick="BuildTruthTable()" />
+                </div>
+                <div class="buttons">
+                    <input class="button" type="button" id="calculate" value="Make PDNF" onclick="BuildPDNF()" />
+                    <input class="button" type="button" id="calculate" value="Make PCNF" onclick="BuildPCNF()" />
                 </div>
                 <div class="wrap-result">
                     <div class="input-wrap">
@@ -88,6 +95,33 @@
                 <h1>Step by step</h1>
                 <div class="input-wrap" id="input-wrap">
                     <h1 class="text">1.</h1>
+                    <div class="input"><input type="result" id="step1" readonly/></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="wrapper hide" id="truthTableNode">
+            <div class="step-by-step" id="truthTableWrapper">
+                <h1>Truth Table</h1>
+                <div class="input-wrap" id="input-wrap">
+                    <div class="input"><input type="result" readonly/></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper hide" id="pdnfNode">
+            <div class="step-by-step" id="pdnfWrapper">
+                <h1>Perfect Disjunctive Normal Form</h1>
+                <div class="input-wrap" id="input-wrap">
+                    <div class="input"><input type="result" id="step1" readonly/></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper hide" id="pcnfNode">
+            <div class="step-by-step" id="pcnfWrapper">
+                <h1>Perfect Conjunctive Normal Form</h1>
+                <div class="input-wrap" id="input-wrap">
                     <div class="input"><input type="result" id="step1" readonly/></div>
                 </div>
             </div>
