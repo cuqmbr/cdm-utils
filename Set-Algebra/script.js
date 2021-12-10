@@ -336,6 +336,7 @@ function stepByStep() {
     clear.remove();
     step = 0;
     stepByStep.classList.remove('hide');
+    stepByStep.classList.remove('close');
     stepByStep.insertAdjacentHTML('beforeend', `  <div class="step-by-step" id="steps">
                                                      <h1>Step by step</h1>
                                                    </div>`);
@@ -403,6 +404,7 @@ function setToString(set) {
 function Close() {
 
     let wrapper = document.getElementById("stepByStep")
+    wrapper.classList.add('close');
     setTimeout(() => wrapper.classList.add('hide'), 600);
     document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
