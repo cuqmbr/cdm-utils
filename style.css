@@ -290,6 +290,7 @@ input[type=table-start] {
     cursor: default;
     padding: 0px 0px 0px 10px;
 }
+
 input[type=table-mid] {
     height: 44px;
     width: 100%;
@@ -301,6 +302,7 @@ input[type=table-mid] {
     cursor: default;
     padding: 0px 0px 0px 10px;
 }
+
 input[type=table-end] {
     height: 44px;
     width: 100%;
@@ -402,6 +404,7 @@ input[type=table-end] {
     height: 50px;
 }
 
+
 /* ------------------Main-------------- */
 
 .calculator {
@@ -431,6 +434,33 @@ input[type=table-end] {
     text-align: center;
     font-size: 23px;
     max-width: 200px;
+}
+
+
+/* ------------------New-------------- */
+
+.current {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.no-top-margin {
+    margin-top: 0;
+}
+
+.title {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-family: Myriad-R;
+}
+
+.operation h6 {
+    text-align: left;
+}
+
+.operation-bg {
+    min-width: 22px;
+    max-width: 22px;
 }
 
 @media screen and (max-device-width: 650px) and (min-device-width: 0px) {
