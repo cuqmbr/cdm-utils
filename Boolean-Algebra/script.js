@@ -8,22 +8,23 @@ function AddValue() {
     if (currNumOfValues < 26) {
 
         let charNum = 65 + currNumOfValues;
+        symbols2.push(alphabet[currNumOfValues]);
         currNumOfValues++;
-    
+
         let delBtn = document.querySelectorAll('#delBtn');
         if (delBtn[delBtn.length - 1]) {
-            delBtn[delBtn.length - 1].style="display: none;";
+            delBtn[delBtn.length - 1].style = "display: none;";
         }
 
         node = document.getElementById('values');
         node.insertAdjacentHTML('beforeend', `  <div class="input-wrap">
                                                     <h1 class="text">Value &#${charNum} = </h1>
-                                                    <div class="input"><input type="value" onkeydown="return checkInputValue(event.key, this.value)" id="value${currNumOfValues - 1}" placeholder="e.g. 0 or 1"/></div>
+                                                    <div class="input"><input type="value" onkeydown="return checkInputValue(event.key, this.value, this.id)" id="value${currNumOfValues - 1}" placeholder="e.g. 0 or 1"/></div>
                                                 </div>`);
 
     } else {
         alert('You have reached a limint of available values');
-    }        
+    }
 }
 
 let VALUES = new Set();
@@ -34,11 +35,11 @@ function FetchValues() {
     userValues = new Array();
 
     for (let i = 0; i < currNumOfValues; i++) {
-        
+
         let inputField = document.getElementById(`value${i}`);
         let currCharStr = String.fromCharCode(65 + i);
-        
-        if (inputField.value === '1' || inputField.value === 'true' || inputField.value === 'True'|| inputField.value === 'TRUE' || inputField.value === 't' || inputField.value === 'T') {
+
+        if (inputField.value === '1' || inputField.value === 'true' || inputField.value === 'True' || inputField.value === 'TRUE' || inputField.value === 't' || inputField.value === 'T') {
             VALUES.add(currCharStr);
             userValues.push([currCharStr, true]);
         } else if (inputField.value === '0' || inputField.value === 'false' || inputField.value === 'False' || inputField.value === 'FALSE' || inputField.value === 'f' || inputField.value === 'F') {
@@ -54,7 +55,7 @@ function FetchValues() {
 
 // Evaluate given formula and display the result
 function Evaluate() {
-    
+
     // ToggleAll(false);
 
     FetchValues();
@@ -120,7 +121,7 @@ function ConvertToRPNArray(chars) {
 
     for (let i = 0; i < chars.length; i++) {
         const element = chars[i];
-        
+
         if (!OPERATORS.has(element) && !BRACKETS.has(element)) {
 
             _values_stack.push(element);
@@ -176,7 +177,7 @@ function ConvertCharsToValues(RPNArray) {
     let valuesRNPArray = new Array();
 
     RPNArray.forEach(element => {
-        
+
         if (VALUES.has(element)) {
             valuesRNPArray.push(GetValueFromIndex(element));
         } else if (element !== '(' || element !== ')') {
@@ -191,69 +192,69 @@ function SolveRPNFormula(valuesRPNArray) {
 
     let stepByStepResults = new Array();
 
-    let _stack =  new Array();
+    let _stack = new Array();
 
     for (let i = 0; i < valuesRPNArray.length; i++) {
-        const element = valuesRPNArray[i]; 
+        const element = valuesRPNArray[i];
 
         if (OPERATORS.has(element)) {
 
             if (element == '!') {
-                
+
                 let _currValue = _stack.pop();
 
                 let _result = Negation(_currValue);
 
                 _stack.push(_result);
                 stepByStepResults.push(ConvertToReadableResult(_result));
-     
+
             } else if (element == '*') {
-                
+
                 let _secondValue = _stack.pop();
                 let _firstValue = _stack.pop();
-                
+
                 let _result = Conjunction(_firstValue, _secondValue);
-                
+
                 _stack.push(_result);
                 stepByStepResults.push(ConvertToReadableResult(_result));
-                
+
             } else if (element == '+') {
 
                 let _secondValue = _stack.pop();
                 let _firstValue = _stack.pop();
-                
+
                 let _result = Disjunction(_firstValue, _secondValue);
-                
+
                 _stack.push(_result);
                 stepByStepResults.push(ConvertToReadableResult(_result));
-                
+
             } else if (element == '>') {
 
                 let _secondValue = _stack.pop();
                 let _firstValue = _stack.pop();
-                
+
                 let _result = Disjunction(Negation(_firstValue), _secondValue);
-                
+
                 _stack.push(_result);
                 stepByStepResults.push(ConvertToReadableResult(_result));
-                
+
             } else if (element == '=') {
 
                 let _secondValue = _stack.pop();
                 let _firstValue = _stack.pop();
-                
+
                 let _result = Equivalence(_firstValue, _secondValue);
-                
+
                 _stack.push(_result);
                 stepByStepResults.push(ConvertToReadableResult(_result));
-                
+
             }
         } else {
 
             _stack.push(element);
         }
     }
-    
+
     return _stack[0];
 }
 
@@ -278,22 +279,22 @@ function StepByStep() {
 
     let resultField = document.getElementById('result');
     resultField.value = readableResult;
-    
+
     let stepsActionsArray = GetCharSteps(formulaRPNArray);
     let stepsResultsArray = GetStepsResults(formulaValuesRPNArray);
-        
+
     // console.log(stepsActionsArray);
     // console.log(stepsResultsArray);
-    
+
     if (stepsResultsArray.length > 0) {
 
         ToggleSteps(true);
-    
+
         for (let i = 0; i < stepsActionsArray.length; i++) {
             const action = stepsActionsArray[i];
             const result = stepsResultsArray[i];
-        
-                
+
+
             stepsWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
                                                         <h1 class="text">${i+1}.  </h1>
                                                         <div class="input"><input type="result" value="${action} = ${result}" readonly/></div>
@@ -301,193 +302,194 @@ function StepByStep() {
         }
     }
 
-    stepsWrapper.scrollIntoView({behavior:'smooth', block: 'center'});
+    stepsWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
     // Get steps in form of characters
     function GetCharSteps(RPNArray) {
 
         let stepsArray = new Array();
-    
-        let _stack =  new Array();
-    
+
+        let _stack = new Array();
+
         for (let i = 0; i < RPNArray.length; i++) {
-            const element = RPNArray[i]; 
-    
+            const element = RPNArray[i];
+
             if (OPERATORS.has(element)) {
-    
+
                 if (element == '!') {
-                    
+
                     let _currValue = _stack.pop();
-    
+
                     let _result;
-    
+
                     if (_currValue.length <= 2) {
                         _result = '!'.concat(_currValue);
                     } else {
                         _result = '!'.concat('(').concat(_currValue).concat(')');
                     }
-    
+
                     _stack.push(_result);
                     stepsArray.push([_result]);
-         
+
                 } else if (element == '*') {
-                    
+
                     let _secondValue = _stack.pop();
                     let _firstValue = _stack.pop();
-                    
+
                     let _result;
-    
+
                     let _firstHasExclemMark = Boolean(_firstValue.split('').filter(x => x === '!').length);
                     let _secondHasExclemMark = Boolean(_secondValue.split('').filter(x => x === '!').length);
-    
+
                     if (_firstValue.length <= 2 && _secondValue.length <= 2) {
                         _result = _firstValue.concat('*').concat(_secondValue);
                     } else if (_firstValue.length <= 2 && _secondValue.length > 2) {
-                        
+
                         if (_secondHasExclemMark) {
-    
+
                             _result = _firstValue.concat('*').concat(_secondValue);
                         } else {
-                            _result = 
-                            _firstValue.concat('*').concat('(').concat(_secondValue).concat(')');
+                            _result =
+                                _firstValue.concat('*').concat('(').concat(_secondValue).concat(')');
                         }
                     } else if (_firstValue.length > 2 && _secondValue.length <= 2) {
-                       
+
                         if (_firstHasExclemMark) {
-                            
+
                             _result = _firstValue.concat('*').concat(_secondValue);
                         } else {
-                            
+
                             _result = '('.concat(_firstValue).concat(')').concat('*').concat(_secondValue);
                         }
                     } else if (_firstValue.length > 2 && _secondValue.length > 2) {
-                       
+
                         if (_firstHasExclemMark && _secondHasExclemMark) {
-                            
+
                             _result = _firstValue.concat('*').concat(_secondValue);
-                        } if (_firstHasExclemMark && !_secondHasExclemMark) {
-                            
+                        }
+                        if (_firstHasExclemMark && !_secondHasExclemMark) {
+
                             _result = _firstValue.concat('*').concat('(').concat(_secondValue).concat(')');
                         } else if (!_firstHasExclemMark && _secondHasExclemMark) {
-                           
+
                             _result = '('.concat(_firstValue).concat(')').concat('*').concat(_secondValue);;
                         } else {
-                           
+
                             _result = '('.concat(_firstValue).concat(')').concat('*').concat('(').concat(_secondValue).concat(')');
                         }
                     }
-                    
+
                     _stack.push(_result);
                     stepsArray.push([_result]);
-                    
+
                 } else if (element == '+') {
-    
+
                     let _secondValue = _stack.pop();
                     let _firstValue = _stack.pop();
-                    
+
                     let _result = _firstValue.concat('+').concat(_secondValue);
-                    
+
                     _stack.push(_result);
                     stepsArray.push([_result]);
-                    
+
                 } else if (element == '>') {
-    
+
                     let _secondValue = _stack.pop();
                     let _firstValue = _stack.pop();
-                    
+
                     let _result = _firstValue.concat('>').concat(_secondValue);
-                    
+
                     _stack.push(_result);
                     stepsArray.push([_result]);
-                    
+
                 } else if (element == '=') {
-    
+
                     let _secondValue = _stack.pop();
                     let _firstValue = _stack.pop();
-                    
+
                     let _result = _firstValue.concat('=').concat(_secondValue);
-                    
+
                     _stack.push(_result);
                     stepsArray.push([_result]);
                 }
             } else {
-    
+
                 _stack.push(element);
             }
         }
-        
+
         return stepsArray;
         // return _stack[0];
     }
-    
+
     // Get a result of each step
     function GetStepsResults(valuesRPNArray) {
-    
+
         let stepByStepResults = new Array();
-    
-        let _stack =  new Array();
-    
+
+        let _stack = new Array();
+
         for (let i = 0; i < valuesRPNArray.length; i++) {
-            const element = valuesRPNArray[i]; 
-    
+            const element = valuesRPNArray[i];
+
             if (OPERATORS.has(element)) {
-    
+
                 if (element == '!') {
-                    
+
                     let _currValue = _stack.pop();
-    
+
                     let _result = Negation(_currValue);
-    
+
                     _stack.push(_result);
                     stepByStepResults.push(ConvertToReadableResult(_result));
-         
+
                 } else if (element == '*') {
-                    
+
                     let _secondValue = _stack.pop();
                     let _firstValue = _stack.pop();
-                    
+
                     let _result = Conjunction(_firstValue, _secondValue);
-                    
+
                     _stack.push(_result);
                     stepByStepResults.push(ConvertToReadableResult(_result));
-                    
+
                 } else if (element == '+') {
-    
+
                     let _secondValue = _stack.pop();
                     let _firstValue = _stack.pop();
-                    
+
                     let _result = Disjunction(_firstValue, _secondValue);
-                    
+
                     _stack.push(_result);
                     stepByStepResults.push(ConvertToReadableResult(_result));
-                    
+
                 } else if (element == '>') {
-    
+
                     let _secondValue = _stack.pop();
                     let _firstValue = _stack.pop();
-                    
+
                     let _result = Disjunction(Negation(_firstValue), _secondValue);
-                    
+
                     _stack.push(_result);
                     stepByStepResults.push(ConvertToReadableResult(_result));
-                    
+
                 } else if (element == '=') {
-    
+
                     let _secondValue = _stack.pop();
                     let _firstValue = _stack.pop();
-                    
+
                     let _result = Equivalence(_firstValue, _secondValue);
-                    
+
                     _stack.push(_result);
                     stepByStepResults.push(ConvertToReadableResult(_result));
-                    
+
                 }
             } else {
-    
+
                 _stack.push(element);
             }
         }
-        
+
         return stepByStepResults;
     }
 }
@@ -508,7 +510,7 @@ function BuildTruthTable() {
 function GenerateTruthTable() {
 
     let formulaField = document.getElementById('formula');
-    
+
     let numColumns = formulaField.value.match(/[A-Z]/g).filter((c, i) => document.getElementById('formula').value.match(/[A-Z]/g).indexOf(c) == i).length;
     let numRows = Math.pow(2, numColumns);
 
@@ -518,23 +520,23 @@ function GenerateTruthTable() {
     for (let i = 0; i < numRows; i++) {
         truthTable.push(new Array(numColumns + 1));
     }
-    
+
     for (let c = 0; c < numColumns; c++) {
-        
-        let period = Math.pow(2, numColumns) / Math.pow(2, c+1);
+
+        let period = Math.pow(2, numColumns) / Math.pow(2, c + 1);
         let zeros = true;
-        
+
         for (let r = 0; r < numRows; r++) {
-            
+
             if (zeros) {
                 truthTable[r][c] = false;
             }
-            
+
             if (!zeros) {
                 truthTable[r][c] = true;
             }
-                        
-            if ((r+1) % period == 0) {
+
+            if ((r + 1) % period == 0) {
                 zeros = !zeros;
             }
         }
@@ -556,35 +558,35 @@ function GenerateTruthTable() {
 // Display truth table in the interface
 function DisplayTruthTable(matrix, header) {
 
-        //Display the truth table in the interface
-        ToggleTruthTable(true);
-    
-        let truthTableWrapper = document.querySelector('#truthTableWrapper');
-    
-        truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
+    //Display the truth table in the interface
+    ToggleTruthTable(true);
+
+    let truthTableWrapper = document.querySelector('#truthTableWrapper');
+
+    truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
                                                             <h1 class="text"></h1>
                                                             <div class="input"><input type="table-start" value="${header.join('        ')}    :    Result" readonly/></div>
                                                         </div>`);
-    
-        let type = 'table-start';
 
-        for (let r = 0; r < matrix.length; r++) {
-    
-            if (r == matrix.length - 1) {
-                type = 'table-end';
-            } else if (type != 0) {
-                type = 'table-mid';
-            }
+    let type = 'table-start';
 
-            let result = matrix[r].pop();
-    
-            truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
+    for (let r = 0; r < matrix.length; r++) {
+
+        if (r == matrix.length - 1) {
+            type = 'table-end';
+        } else if (type != 0) {
+            type = 'table-mid';
+        }
+
+        let result = matrix[r].pop();
+
+        truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
                                                             <h1 class="text"></h1>
                                                             <div class="input"><input type="${type}" value="${matrix[r].map(x => x = ConvertToReadableResult(x)).join('        ')}     :       ${ConvertToReadableResult(result)}" readonly/></div>
                                                         </div>`);
-        }
+    }
 
-        truthTableWrapper.scrollIntoView({behavior:'smooth', block: 'center'});
+    truthTableWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 //#endregion
@@ -606,14 +608,14 @@ function GeneratePDNF() {
 
     for (let r = 0; r < matrix.length; r++) {
         if (matrix[r][matrix[r].length - 1] == 1) {
-            
+
             pdnf += mintermCount != 0 ? '+(' : '(';
 
             for (let c = 0; c < matrix[r].length - 1; c++) {
                 pdnf += matrix[r][c] == 0 ? '!' + header[c] : header[c];
                 pdnf += c != matrix[r].length - 2 ? '*' : '';
             }
-            
+
             pdnf += ')';
             mintermCount++;
         }
@@ -627,13 +629,13 @@ function DisplayPDNF(pdnf) {
     TogglePDNF(true);
 
     let Wrapper = document.querySelector('#pdnfWrapper');
-    
+
     Wrapper.insertAdjacentHTML('beforeend', ` <div class="input-wrap" id="input-wrap">
                                                             <h1 class="text"></h1>
                                                             <div class="input"><input type="result" value="${pdnf}" readonly/></div>
                                                         </div>`);
 
-    Wrapper.scrollIntoView({behavior:'smooth', block: 'center'});
+    Wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 
@@ -674,13 +676,13 @@ function DisplayPCNF(pcnf) {
     TogglePCNF(true);
 
     let Wrapper = document.querySelector('#pcnfWrapper');
-    
+
     Wrapper.insertAdjacentHTML('beforeend', ` <div class="input-wrap" id="input-wrap">
                                                             <h1 class="text"></h1>
                                                             <div class="input"><input type="result" value="${pcnf}" readonly/></div>
                                                         </div>`);
 
-    Wrapper.scrollIntoView({behavior:'smooth', block: 'center'});
+    Wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 //#endregion
 
@@ -690,7 +692,7 @@ function ToggleSteps(show) {
 
     let Node = document.querySelector('#stepsNode');
     let Wrapper = document.querySelector('#stepsWrapper');
-    
+
     if (show) {
         Node.classList.remove('hide');
         Node.classList.remove('close');
@@ -700,7 +702,7 @@ function ToggleSteps(show) {
     } else {
         Node.classList.add('close');
         setTimeout(() => Node.classList.add('hide'), 600);
-        document.body.scrollIntoView({behavior:'smooth', block: 'start'});
+        document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
@@ -708,7 +710,7 @@ function ToggleTruthTable(show) {
 
     let Node = document.querySelector('#truthTableNode');
     let Wrapper = document.querySelector('#truthTableWrapper');
-    
+
     if (show) {
         Node.classList.remove('hide');
         Node.classList.remove('close');
@@ -718,7 +720,7 @@ function ToggleTruthTable(show) {
     } else {
         Node.classList.add('close');
         setTimeout(() => Node.classList.add('hide'), 600);
-        document.body.scrollIntoView({behavior:'smooth', block: 'start'});
+        document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
@@ -726,7 +728,7 @@ function TogglePDNF(show) {
 
     let Node = document.querySelector('#pdnfNode');
     let Wrapper = document.querySelector('#pdnfWrapper');
-    
+
     if (show) {
         Node.classList.remove('hide');
         Node.classList.remove('close');
@@ -736,7 +738,7 @@ function TogglePDNF(show) {
     } else {
         Node.classList.add('close');
         setTimeout(() => Node.classList.add('hide'), 600);
-        document.body.scrollIntoView({behavior:'smooth', block: 'start'});
+        document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
@@ -744,7 +746,7 @@ function TogglePCNF(show) {
 
     let Node = document.querySelector('#pcnfNode');
     let Wrapper = document.querySelector('#pcnfWrapper');
-    
+
     if (show) {
         Node.classList.remove('hide');
         Node.classList.remove('close');
@@ -754,7 +756,7 @@ function TogglePCNF(show) {
     } else {
         Node.classList.add('close');
         setTimeout(() => Node.classList.add('hide'), 600);
-        document.body.scrollIntoView({behavior:'smooth', block: 'start'});
+        document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
@@ -787,10 +789,10 @@ function GetValueFromIndex(valueIndex) {
 
     for (let i = 0; i < userValues.length; i++) {
         const element = userValues[i];
-        
+
         if (element[0] == valueIndex) {
             return element[1];
-        } 
+        }
     }
 }
 
@@ -810,25 +812,41 @@ function Error(errMsg) {
 const symbols = ['0', '1'];
 const specialSymbols = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'];
 
-function checkInputValue(key, value) {
+function checkInputValue(key, value, id) {
     if (value.length < 1 && symbols.indexOf(key) !== -1) {
         return true;
     } else if (value.length == 1 && specialSymbols.indexOf(key) !== -1) {
         return true;
-    }
-    else {
+    } else {
+        function backBg() { document.getElementById(id).style.backgroundColor = 'rgba(255, 255, 255, 0)' }
+        document.getElementById(id).style.backgroundColor = 'rgba(235, 52, 116, 0.7)';
+        document.getElementById(id).style.transition = '0.2s';
+        setTimeout(backBg, 600);
         return false;
     }
 }
 
-const symbols2 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+
+function checkInputProblem(key, id) {
+    if (symbols2.indexOf(key) != -1) {
+        return true;
+    } else {
+        function backBg() { document.getElementById(id).style.backgroundColor = 'rgba(255, 255, 255, 0)' }
+        document.getElementById(id).style.backgroundColor = 'rgba(235, 52, 116, 0.7)';
+        document.getElementById(id).style.transition = '0.2s';
+        setTimeout(backBg, 600);
+        return false;
+    }
+}
+
+const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
     'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-    'W', 'X', 'Y', 'Z', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete',
-    '>', '=', '+', '*', '!', '(', ')'
+    'W', 'X', 'Y', 'Z'
 ];
 
-function checkInputProblem(key) {
-    return (symbols2.indexOf(key) != -1) ? true : false;
-}
+let symbols2 = ['A', 'B', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Shift',
+    '-', '+', '/', '!', '(', ')'
+];
+
 
 //#endregion

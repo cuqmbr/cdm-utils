@@ -16,31 +16,33 @@
 
     <div class="gradient"></div>
 
-    <div class="container">
+    <div class="container" id="container">
 
         <header>
             <div class="content">
-                <h3><a href="..">CDM</a></h3>
+                <h3><a href="../index.html">CDM</a></h3>
                 <div class="theme">
-                    <h3><a href="../Set-Algebra">Set Algebra</a></h3>
-                    <h3><a href="">Boolean Algebra</a></h3>
+                    <h3><a href="../Set-Algebra/index.html">Set Algebra</a></h3>
+                    <h3><a href="" class="current">Boolean Algebra</a></h3>
                 </div>
             </div>
 
         </header>
 
-        <div class="wrapper">
+        <h1 class="title">Boolean Algebra Calculator</h1>
+
+        <div class="wrapper no-top-margin">
 
             <div class="wrap-side">
                 <h1>Values</h1>
                 <div id="values">
                     <div class="input-wrap">
                         <h1 class="text">Value A = </h1>
-                        <div class="input"><input type="value" id="value0" onkeydown="return checkInputValue(event.key, this.value)" placeholder="e.g. 0 or 1" /></div>
+                        <div class="input"><input type="value" id="value0" onkeydown="return checkInputValue(event.key, this.value, this.id)" placeholder="e.g. 0 or 1" /></div>
                     </div>
                     <div class="input-wrap">
                         <h1 class="text">Value B = </h1>
-                        <div class="input"><input type="value" id="value1" onkeydown="return checkInputValue(event.key, this.value)" placeholder="e.g. 0 or 1" /></div>
+                        <div class="input"><input type="value" id="value1" onkeydown="return checkInputValue(event.key, this.value, this.id)" placeholder="e.g. 0 or 1" /></div>
                     </div>
                 </div>
                 <input class="addValue" type="button" value="Add Value" onclick="AddValue()" />
@@ -48,7 +50,7 @@
 
             <div class="wrap-side">
                 <h1>Formulua</h1>
-                <h2><input type="problem" id="formula" onkeydown="return checkInputProblem(event.key)" placeholder="e.g. !A*(B+C)" /></h2>
+                <h2><input type="problem" id="formula" onkeydown="return checkInputProblem(event.key, this.id)" placeholder="e.g. !A*(B+C)" /></h2>
                 <div class="buttons">
                     <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate()" />
                     <input class="button" type="button" id="calculate" value="Step by step" onclick="StepByStep()" />
@@ -102,7 +104,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="wrapper hide close" id="truthTableNode">
             <div class="close-button" onclick="ToggleTruthTable(false)"><img src="../img/cross-close-icon.png" style="width: 12px;"></div>
             <div class="step-by-step" id="truthTableWrapper">

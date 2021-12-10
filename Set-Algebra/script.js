@@ -133,6 +133,7 @@ function Evaluate(hide = false) {
     FetchSets();
 
     let formulaString = document.getElementById('formula').value;
+    if (formulaString.length < 1) return;
 
     let charArray = formulaString.split('');
     let RPN_Array = ConvertFormulaCharArrayToRPN(charArray);
@@ -397,4 +398,11 @@ function setToString(set) {
         }
     }
     return '{ ' + str.slice(2, str.length) + ' }';
+}
+
+function Close() {
+
+    let wrapper = document.getElementById("stepByStep")
+    setTimeout(() => wrapper.classList.add('hide'), 600);
+    document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
