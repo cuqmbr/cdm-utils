@@ -274,7 +274,6 @@ input[type=result] {
     font-family: Myriad-R;
     cursor: default;
     padding: 0px 0px 0px 10px;
-    text-overflow: ellipsis;
 }
 
 input[type=table-start] {
