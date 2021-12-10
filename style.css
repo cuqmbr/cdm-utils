@@ -366,6 +366,33 @@ input[type=result] {
     max-width: 200px;
 }
 
+
+/* ------------------New-------------- */
+
+.current {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.no-top-margin {
+    margin-top: 0;
+}
+
+.title {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-family: Myriad-R;
+}
+
+.operation h6 {
+    text-align: left;
+}
+
+.operation-bg {
+    min-width: 22px;
+    max-width: 22px;
+}
+
 @media screen and (max-device-width: 650px) and (min-device-width: 0px) {
     .wrapper {
         flex-direction: column;
@@ -381,5 +408,9 @@ input[type=result] {
     }
     .button {
         margin: 10px auto;
+    }
+    .step-by-step {
+        width: auto;
+        text-align: center;
     }
 }
