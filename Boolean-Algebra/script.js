@@ -55,7 +55,7 @@ function FetchValues() {
 // Evaluate given formula and display the result
 function Evaluate() {
     
-    ToggleAll(false);
+    // ToggleAll(false);
 
     FetchValues();
 
@@ -287,7 +287,6 @@ function StepByStep() {
     
     if (stepsResultsArray.length > 0) {
 
-        ToggleAll(false);
         ToggleSteps(true);
     
         for (let i = 0; i < stepsActionsArray.length; i++) {
@@ -301,6 +300,8 @@ function StepByStep() {
                                                     </div>`);
         }
     }
+
+    stepsWrapper.scrollIntoView({behavior:'smooth', block: 'center'});
 
     // Get steps in form of characters
     function GetCharSteps(RPNArray) {
@@ -498,7 +499,7 @@ function StepByStep() {
 // Generate truth table and display it in the interface
 function BuildTruthTable() {
 
-    let header = document.getElementById('formula').value.match(/[A-Z]/g);
+    let header = document.getElementById('formula').value.match(/[A-Z]/g).filter((c, i) => document.getElementById('formula').value.match(/[A-Z]/g).indexOf(c) == i);
     let matrix = GenerateTruthTable();
     DisplayTruthTable(matrix, header);
 }
@@ -508,7 +509,7 @@ function GenerateTruthTable() {
 
     let formulaField = document.getElementById('formula');
     
-    let numColumns = formulaField.value.match(/[A-Z]/g).length;
+    let numColumns = formulaField.value.match(/[A-Z]/g).filter((c, i) => document.getElementById('formula').value.match(/[A-Z]/g).indexOf(c) == i).length;
     let numRows = Math.pow(2, numColumns);
 
     // Initializing the truthTable
@@ -546,7 +547,7 @@ function GenerateTruthTable() {
 
     //Additional functions
     function ConvertCharsToValues(index, row) {
-        return formulaField.value.match(/[A-Z]/g).indexOf(index) != -1 ? truthTable[row][formulaField.value.match(/[A-Z]/g).indexOf(index)] : index;
+        return formulaField.value.match(/[A-Z]/g).filter((c, i) => document.getElementById('formula').value.match(/[A-Z]/g).indexOf(c) == i).indexOf(index) != -1 ? truthTable[row][formulaField.value.match(/[A-Z]/g).filter((c, i) => document.getElementById('formula').value.match(/[A-Z]/g).indexOf(c) == i).indexOf(index)] : index;
     }
 
     return truthTable;
@@ -556,25 +557,34 @@ function GenerateTruthTable() {
 function DisplayTruthTable(matrix, header) {
 
         //Display the truth table in the interface
-        ToggleAll(false);
         ToggleTruthTable(true);
     
         let truthTableWrapper = document.querySelector('#truthTableWrapper');
     
         truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
                                                             <h1 class="text"></h1>
-                                                            <div class="input"><input type="result" value="${header.join('        ')}    :    Result" readonly/></div>
+                                                            <div class="input"><input type="table-start" value="${header.join('        ')}    :    Result" readonly/></div>
                                                         </div>`);
     
+        let type = 'table-start';
+
         for (let r = 0; r < matrix.length; r++) {
     
+            if (r == matrix.length - 1) {
+                type = 'table-end';
+            } else if (type != 0) {
+                type = 'table-mid';
+            }
+
             let result = matrix[r].pop();
     
             truthTableWrapper.insertAdjacentHTML('beforeend', `  <div class="input-wrap" id="input-wrap">
                                                             <h1 class="text"></h1>
-                                                            <div class="input"><input type="result" value="${matrix[r].map(x => x = ConvertToReadableResult(x)).join('        ')}     :       ${ConvertToReadableResult(result)}" readonly/></div>
+                                                            <div class="input"><input type="${type}" value="${matrix[r].map(x => x = ConvertToReadableResult(x)).join('        ')}     :       ${ConvertToReadableResult(result)}" readonly/></div>
                                                         </div>`);
         }
+
+        truthTableWrapper.scrollIntoView({behavior:'smooth', block: 'center'});
 }
 
 //#endregion
@@ -591,7 +601,7 @@ function GeneratePDNF() {
     let pdnf = '';
     let mintermCount = 0;
 
-    let header = document.getElementById('formula').value.match(/[A-Z]/g);
+    let header = document.getElementById('formula').value.match(/[A-Z]/g).filter((c, i) => document.getElementById('formula').value.match(/[A-Z]/g).indexOf(c) == i);
     let matrix = GenerateTruthTable();
 
     for (let r = 0; r < matrix.length; r++) {
@@ -614,7 +624,6 @@ function GeneratePDNF() {
 
 function DisplayPDNF(pdnf) {
 
-    ToggleAll(false);
     TogglePDNF(true);
 
     let Wrapper = document.querySelector('#pdnfWrapper');
@@ -623,6 +632,8 @@ function DisplayPDNF(pdnf) {
                                                             <h1 class="text"></h1>
                                                             <div class="input"><input type="result" value="${pdnf}" readonly/></div>
                                                         </div>`);
+
+    Wrapper.scrollIntoView({behavior:'smooth', block: 'center'});
 }
 
 
@@ -636,7 +647,8 @@ function GeneratePCNF() {
     let pcnf = '';
     let maxtermCount = 0;
 
-    let header = document.getElementById('formula').value.match(/[A-Z]/g);
+    let header = document.getElementById('formula').value.match(/[A-Z]/g).filter((c, i) => document.getElementById('formula').value.match(/[A-Z]/g).indexOf(c) == i);
+
     let matrix = GenerateTruthTable();
 
     for (let r = 0; r < matrix.length; r++) {
@@ -659,7 +671,6 @@ function GeneratePCNF() {
 
 function DisplayPCNF(pcnf) {
 
-    ToggleAll(false);
     TogglePCNF(true);
 
     let Wrapper = document.querySelector('#pcnfWrapper');
@@ -668,6 +679,8 @@ function DisplayPCNF(pcnf) {
                                                             <h1 class="text"></h1>
                                                             <div class="input"><input type="result" value="${pcnf}" readonly/></div>
                                                         </div>`);
+
+    Wrapper.scrollIntoView({behavior:'smooth', block: 'center'});
 }
 //#endregion
 
@@ -680,11 +693,14 @@ function ToggleSteps(show) {
     
     if (show) {
         Node.classList.remove('hide');
+        Node.classList.remove('close');
         Wrapper.querySelectorAll('#input-wrap').forEach((element) => {
             element.remove();
         });
     } else {
-        Node.classList.add('hide');
+        Node.classList.add('close');
+        setTimeout(() => Node.classList.add('hide'), 600);
+        document.body.scrollIntoView({behavior:'smooth', block: 'start'});
     }
 }
 
@@ -695,11 +711,14 @@ function ToggleTruthTable(show) {
     
     if (show) {
         Node.classList.remove('hide');
+        Node.classList.remove('close');
         Wrapper.querySelectorAll('#input-wrap').forEach((element) => {
             element.remove();
         });
     } else {
-        Node.classList.add('hide');
+        Node.classList.add('close');
+        setTimeout(() => Node.classList.add('hide'), 600);
+        document.body.scrollIntoView({behavior:'smooth', block: 'start'});
     }
 }
 
@@ -710,11 +729,14 @@ function TogglePDNF(show) {
     
     if (show) {
         Node.classList.remove('hide');
+        Node.classList.remove('close');
         Wrapper.querySelectorAll('#input-wrap').forEach((element) => {
             element.remove();
         });
     } else {
-        Node.classList.add('hide');
+        Node.classList.add('close');
+        setTimeout(() => Node.classList.add('hide'), 600);
+        document.body.scrollIntoView({behavior:'smooth', block: 'start'});
     }
 }
 
@@ -725,20 +747,23 @@ function TogglePCNF(show) {
     
     if (show) {
         Node.classList.remove('hide');
+        Node.classList.remove('close');
         Wrapper.querySelectorAll('#input-wrap').forEach((element) => {
             element.remove();
         });
     } else {
-        Node.classList.add('hide');
+        Node.classList.add('close');
+        setTimeout(() => Node.classList.add('hide'), 600);
+        document.body.scrollIntoView({behavior:'smooth', block: 'start'});
     }
 }
 
-function ToggleAll(show) {
-    ToggleSteps(show);
-    ToggleTruthTable(show);
-    TogglePDNF(show);
-    TogglePCNF(show);
-}
+// function ToggleAll(show) {
+//     ToggleSteps(show);
+//     ToggleTruthTable(show);
+//     TogglePDNF(show);
+//     TogglePCNF(show);
+// }
 
 const OPERATORS = new Set(['!', '*', '+', '>', '=']);
 const BRACKETS = new Set(['(', ')']);
