@@ -6,18 +6,61 @@ function AddSet() {
     if (currNum < 26) {
 
         let charNum = 65 + currNum;
+        symbols2.push(alphabet[currNum]);
         currNum++;
 
         node = document.getElementById('sets');
         node.insertAdjacentHTML('beforeend', `  <div class="input-wrap">
                                                     <h1 class="text">Set &#${charNum} = </h1>
-                                                    <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set${charNum - 65}" placeholder="Define set"/></div>
+                                                    <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value, this.id)" id="set${charNum - 65}" placeholder="Define set"/></div>
                                                 </div>`);
-
     } else {
         alert('You have reached a limint of available sets');
     }
 }
+
+//----------------------------- Check Input ---------------------------
+
+const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+    'W', 'X', 'Y', 'Z'
+];
+
+const symbols = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Shift'];
+
+function checkInputSet(key, value, id) {
+    if (value[value.length - 1] == ',' && symbols.indexOf(key) !== -1) {
+        return true;
+    } else if (symbols.indexOf(value[value.length - 1]) !== -1 && key == ',') {
+        return true;
+    } else if (symbols.indexOf(key) !== -1) {
+        return true;
+    } else {
+        function backBg() { document.getElementById(id).style.backgroundColor = 'rgba(255, 255, 255, 0)' }
+        document.getElementById(id).style.backgroundColor = 'rgba(235, 52, 116, 0.7)';
+        document.getElementById(id).style.transition = '0.2s';
+        setTimeout(backBg, 600);
+        return false;
+    }
+}
+
+
+let symbols2 = ['A', 'B', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Shift',
+    '-', '+', '/', '!', '(', ')'
+];
+
+function checkInputProblem(key, id) {
+    if (symbols2.indexOf(key) != -1) {
+        return true;
+    } else {
+        function backBg() { document.getElementById(id).style.backgroundColor = 'rgba(255, 255, 255, 0)' }
+        document.getElementById(id).style.backgroundColor = 'rgba(235, 52, 116, 0.7)';
+        document.getElementById(id).style.transition = '0.2s';
+        setTimeout(backBg, 600);
+        return false;
+    }
+}
+
 
 let universalSet = new Set();
 
@@ -282,19 +325,26 @@ function checkEmpty(set) {
     return (set == undefined || set.size == 0) ? true : false;
 }
 
-//----------------------------- Step by Step ---------------------------
+//----------------------------- Step by Step -------------------------------------------
 
 function stepByStep() {
+    if (document.getElementById('formula').value.length < 2) return;
+
     let stepByStep = document.getElementById('stepByStep');
     let clear = document.getElementById('steps');
     clear.remove();
-
     step = 0;
     stepByStep.classList.remove('hide');
     stepByStep.insertAdjacentHTML('beforeend', `  <div class="step-by-step" id="steps">
                                                      <h1>Step by step</h1>
                                                    </div>`);
     Evaluate();
+
+    let scrollBody = document.getElementById('container');
+    scrollBody.querySelector("#stepByStep").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
 }
 
 let step = 0;
@@ -347,31 +397,4 @@ function setToString(set) {
         }
     }
     return '{ ' + str.slice(2, str.length) + ' }';
-}
-
-
-//----------------------------- Check Input ---------------------------
-
-const symbols = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'];
-
-function checkInputSet(key, value) {
-    if (value[value.length - 1] == ',' && symbols.indexOf(key) !== -1) {
-        return true;
-    } else if (symbols.indexOf(value[value.length - 1]) !== -1 && key == ',') {
-        return true;
-    } else if (symbols.indexOf(key) !== -1) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-const symbols2 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
-    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-    'W', 'X', 'Y', 'Z', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete',
-    '-', '+', '/', '!', '(', ')'
-];
-
-function checkInputProblem(key) {
-    return (symbols2.indexOf(key) != -1) ? true : false;
 }

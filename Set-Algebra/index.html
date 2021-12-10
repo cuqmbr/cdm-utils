@@ -16,39 +16,40 @@
 
     <div class="gradient"></div>
 
-    <div class="container">
+    <div class="container" id="container">
 
         <header>
             <div class="content">
-                <h3><a href="..">CDM</a></h3>
+                <h3><a href="../index.html">CDM</a></h3>
                 <div class="theme">
-                    <h3><a href="">Set Algebra</a></h3>
-                    <h3><a href="../Boolean-Algebra">Boolean Algebra</a></h3>
+                    <h3><a href="" class="current">Set Algebra</a></h3>
+                    <h3><a href="../Boolean-Algebra/index.html">Boolean Algebra</a></h3>
                 </div>
             </div>
-
         </header>
 
-        <div class="wrapper">
+        <h1 class="title">Set Algebra Calculator</h1>
+
+        <div class="wrapper no-top-margin">
 
             <div class="wrap-side">
                 <h1>Sets</h1>
                 <div id="sets">
                     <div class="input-wrap">
                         <h1 class="text">Set A = </h1>
-                        <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set0" placeholder="1,2,3" /></div>
+                        <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value, this.id)" id="set0" placeholder="1,2,3" /></div>
                     </div>
                     <div class="input-wrap">
                         <h1 class="text">Set B = </h1>
-                        <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value)" id="set1" placeholder="Define set" /></div>
+                        <div class="input"><input type="set" onkeydown="return checkInputSet(event.key, this.value, this.id)" id="set1" placeholder="Define set" /></div>
                     </div>
                 </div>
                 <input class="addSet" type="button" value="Add Set" onclick="AddSet()" />
             </div>
 
             <div class="wrap-side">
-                <h1>Problem</h1>
-                <h2><input type="problem" id="formula" onkeydown="return checkInputProblem(event.key)" placeholder="!A-C+B/U" /></h2>
+                <h1>Formula</h1>
+                <h2><input type="problem" id="formula" onkeydown="return checkInputProblem(event.key, this.id)" placeholder="!A-C+B/U" /></h2>
                 <div class="buttons">
                     <input class="button" type="button" id="calculate" value="Evaluate" onclick="Evaluate(true)" />
                     <input class="button" type="button" id="calculate" value="Step by step" onclick="stepByStep()" />
@@ -59,23 +60,23 @@
                         <div class="input"><input type="result" id="result" readonly/></div>
                     </div>
                 </div>
-                <h6 class="description">Define sets: A, B, C, and Universal set. Then write the problem you need to solve. </h6>
+                <h6 class="description">Set is a collection of elements. <br/> Add up to 26 sets. Define them (leave empty for empty set). Then write the formula you need to solve. </h6>
                 <h6 class="operations">
                     <div class="operation">
                         <div class="operation-bg">!</div>
-                        <h6>Complement</h6>
+                        <h6><strong>Complement</strong> - get set of elements that are in the universal set, but are not in your set.</h6>
                     </div>
                     <div class="operation">
                         <div class="operation-bg">/</div>
-                        <h6>Intersection</h6>
+                        <h6><strong>Intersection</strong> - get set of elements that are both in your sets.</h6>
                     </div>
                     <div class="operation">
                         <div class="operation-bg">+</div>
-                        <h6>Union</h6>
+                        <h6><strong>Union</strong> - get set of all elements that are in your sets.</h6>
                     </div>
                     <div class="operation">
                         <div class="operation-bg">-</div>
-                        <h6>Substraction</h6>
+                        <h6><strong>Substraction</strong>- get set of elements that are in the first set, but not in the second.</h6>
                     </div>
                 </h6>
             </div>
