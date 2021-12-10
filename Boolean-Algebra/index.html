@@ -14,6 +14,8 @@
 
 <body>
 
+    <div class="gradient"></div>
+
     <div class="container">
 
         <header>
@@ -90,7 +92,8 @@
             </div>
         </div>
 
-        <div class="wrapper hide" id="stepsNode">
+        <div class="wrapper hide close" id="stepsNode">
+            <div class="close-button" onclick="ToggleSteps(false)"><img src="../img/cross-close-icon.png" style="width: 12px;"></div>
             <div class="step-by-step" id="stepsWrapper">
                 <h1>Step by step</h1>
                 <div class="input-wrap" id="input-wrap">
@@ -100,16 +103,24 @@
             </div>
         </div>
         
-        <div class="wrapper hide" id="truthTableNode">
+        <div class="wrapper hide close" id="truthTableNode">
+            <div class="close-button" onclick="ToggleTruthTable(false)"><img src="../img/cross-close-icon.png" style="width: 12px;"></div>
             <div class="step-by-step" id="truthTableWrapper">
                 <h1>Truth Table</h1>
                 <div class="input-wrap" id="input-wrap">
-                    <div class="input"><input type="result" readonly/></div>
+                    <div class="input"><input type="table-start" id="step1" readonly/></div>
+                </div>
+                <div class="input-wrap" id="input-wrap">
+                    <div class="input"><input type="table-mid" id="step1" readonly/></div>
+                </div>
+                <div class="input-wrap" id="input-wrap">
+                    <div class="input"><input type="table-end" id="step1" readonly/></div>
                 </div>
             </div>
         </div>
 
-        <div class="wrapper hide" id="pdnfNode">
+        <div class="wrapper hide close" id="pdnfNode">
+            <div class="close-button" onclick="TogglePDNF(false)"><img src="../img/cross-close-icon.png" style="width: 12px;"></div>
             <div class="step-by-step" id="pdnfWrapper">
                 <h1>Perfect Disjunctive Normal Form</h1>
                 <div class="input-wrap" id="input-wrap">
@@ -118,7 +129,8 @@
             </div>
         </div>
 
-        <div class="wrapper hide" id="pcnfNode">
+        <div class="wrapper hide close" id="pcnfNode">
+            <div class="close-button" onclick="TogglePCNF(false)"><img src="../img/cross-close-icon.png" style="width: 12px;"></div>
             <div class="step-by-step" id="pcnfWrapper">
                 <h1>Perfect Conjunctive Normal Form</h1>
                 <div class="input-wrap" id="input-wrap">
