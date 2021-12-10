@@ -8,7 +8,6 @@ function AddValue() {
     if (currNumOfValues < 26) {
 
         let charNum = 65 + currNumOfValues;
-        symbols2.push(alphabet[currNumOfValues]);
         currNumOfValues++;
 
         let delBtn = document.querySelectorAll('#delBtn');
@@ -67,7 +66,15 @@ function Evaluate() {
     let formulaValuesRPNArray = ConvertCharsToValues(formulaRPNArray);
 
     let result = SolveRPNFormula(formulaValuesRPNArray);
-    if (result == undefined) return;
+    
+    if (result == undefined || formulaValuesRPNArray.some(x => alphabet.indexOf(x) != -1) || formulaValuesRPNArray.some(x => x == undefined)) { 
+        formulaField.style.backgroundColor = 'rgba(255, 255, 255, 0)';
+        formulaField.style.backgroundColor = 'rgba(235, 52, 116, 0.7)';
+        formulaField.style.transition = '0.2s';
+        setTimeout(() => formulaField.style.backgroundColor = 'rgba(255, 255, 255, 0)', 600);
+        return;
+    }
+    
     let readableResult = ConvertToReadableResult(result);
 
     let resultField = document.getElementById('result');
@@ -274,7 +281,15 @@ function StepByStep() {
     let formulaValuesRPNArray = ConvertCharsToValues(formulaRPNArray);
 
     let result = SolveRPNFormula(formulaValuesRPNArray);
-    if (result == undefined) return;
+    
+    if (result == undefined || formulaValuesRPNArray.some(x => alphabet.indexOf(x) != -1) || formulaValuesRPNArray.some(x => x == undefined)) { 
+        formulaField.style.backgroundColor = 'rgba(255, 255, 255, 0)';
+        formulaField.style.backgroundColor = 'rgba(235, 52, 116, 0.7)';
+        formulaField.style.transition = '0.2s';
+        setTimeout(() => formulaField.style.backgroundColor = 'rgba(255, 255, 255, 0)', 600);
+        return;
+    }
+    
     let readableResult = ConvertToReadableResult(result);
 
     let resultField = document.getElementById('result');
@@ -810,7 +825,7 @@ function Error(errMsg) {
 //#region Check Input
 
 const symbols = ['0', '1'];
-const specialSymbols = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'];
+const specialSymbols = ['!', '*', '+', '=', '>', '(', ')', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Shift'];
 
 function checkInputValue(key, value, id) {
     if (value.length < 1 && symbols.indexOf(key) !== -1) {
@@ -828,7 +843,7 @@ function checkInputValue(key, value, id) {
 
 
 function checkInputProblem(key, id) {
-    if (symbols2.indexOf(key) != -1) {
+    if (alphabet.indexOf(key) != -1 || specialSymbols.indexOf(key) != -1) {
         return true;
     } else {
         function backBg() { document.getElementById(id).style.backgroundColor = 'rgba(255, 255, 255, 0)' }
@@ -843,10 +858,5 @@ const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
     'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
     'W', 'X', 'Y', 'Z'
 ];
-
-let symbols2 = ['A', 'B', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Shift',
-    '-', '+', '/', '!', '(', ')'
-];
-
 
 //#endregion

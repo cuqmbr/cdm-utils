@@ -390,14 +390,26 @@ input[type=table-end] {
     transform: translate(0, -3px);
     margin: 25px 5px 0px 0px;
     cursor: pointer;
-    width: 12px;
-    height: 12px;
-    opacity: 75%;
+    width: 20px;
+    height: 20px;
+    opacity: 85%;
     transition: 0.5s;
 }
 
 .close-button:hover {
-    opacity: 95%;
+    opacity: 100%;
+    transition: 0.5s;
+}
+
+.question-mark-button {
+    width: 20px;
+    margin: -1px 10px 0px 10px;
+    opacity: 85%;
+    transition: 0.5s;
+}
+
+.question-mark-button:hover {
+    opacity: 100%;
     transition: 0.5s;
 }
 
