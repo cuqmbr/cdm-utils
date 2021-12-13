@@ -477,6 +477,33 @@ input[type=table-end] {
     max-width: 22px;
 }
 
+
+/* ------------------Knowledgebase-------------- */
+
+.knowledge {
+    flex-direction: column;
+}
+
+.knowledge-wrap {
+    width: 95%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.knowledge-main-title {
+    margin: 15px auto;
+}
+
+.knowledge-title {
+    text-align: left;
+    margin: 5px 0;
+}
+
+.knowledge-desc {
+    text-align: justify;
+}
+
 @media screen and (max-device-width: 650px) and (min-device-width: 0px) {
     .wrapper {
         flex-direction: column;
@@ -496,5 +523,8 @@ input[type=table-end] {
     .step-by-step {
         width: auto;
         text-align: center;
+    }
+    .knowledge-wrap {
+        width: 80%;
     }
 }
