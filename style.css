@@ -539,6 +539,10 @@ input[type=table-end] {
         width: 80%;
     }
     h3 {
-        font-size: 15px;
+        font-size: 14px;
+    }
+    .theme a {
+        margin-left: 15px;
+        font-size: 14px;
     }
 }
