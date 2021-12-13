@@ -120,6 +120,9 @@ h6 {
 
 h3 {
     letter-spacing: 0.5px;
+    text-align: center;
+    display: grid;
+    align-self: center;
 }
 
 h2 {
@@ -504,6 +507,14 @@ input[type=table-end] {
     text-align: justify;
 }
 
+.strong {
+    color: white;
+}
+
+.overline {
+    text-decoration: overline;
+}
+
 @media screen and (max-device-width: 650px) and (min-device-width: 0px) {
     .wrapper {
         flex-direction: column;
@@ -526,5 +537,8 @@ input[type=table-end] {
     }
     .knowledge-wrap {
         width: 80%;
+    }
+    h3 {
+        font-size: 15px;
     }
 }

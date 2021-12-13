@@ -18,12 +18,12 @@
 
         <header>
             <div class="content">
-                <h3><a href="../index.html">CDM Utils</a></h3>
+                <h3><a href="../">CDM Utils</a></h3>
                 <div class="theme">
-                    <h3><a href="../Set-Algebra/index.html">Set Algebra</a></h3>
-                    <h3><a href="../Boolean-Algebra/index.html">Boolean Algebra</a></h3>
-                    <h3><a class="current" href="Knowledgebase">Knowledgebase</a></h3>
-                    <h3><a href="https://github.com/cuqmbr/cdm-utils/" target="_blank">GitHub</a></h3>
+                    <h3><a href="../Set-Algebra/">Set Algebra</a></h3>
+                    <h3><a href="../Boolean-Algebra/">Boolean Algebra</a></h3>
+                    <h3><a class="current" href="">Knowledgebase</a></h3>
+                    <h3><a href="../Info">Info</a></h3>
                 </div>
             </div>
 
@@ -33,19 +33,261 @@
 
         <div class="wrapper no-top-margin knowledge">
             <div class="knowledge-wrap">
-                <h1 class="knowledge-main-title">Main Title (Set Algebra)</h1>
-                <h1 class="knowledge-title">Theme Title (Set algebra operations)</h1>
-                <h6 class="knowledge-desc"> &emsp; (Это команда для таба) Text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus finibus in nulla a lobortis. Integer odio nulla, sollicitudin fringilla commodo et, interdum nec turpis. Quisque pellentesque, arcu ac
-                    luctus interdum, urna elit euismod sem, eu accumsan ipsum ipsum a velit. Donec mattis metus odio, id maximus velit condimentum sit amet. Duis iaculis, lorem eget scelerisque porta, ante ligula consequat tellus, non vestibulum sem risus
-                    quis massa. Morbi sodales imperdiet nulla, id tristique ipsum ornare quis. Duis aliquet lacus non urna ornare, id sodales turpis malesuada. Maecenas interdum nibh nibh, condimentum rhoncus nulla lobortis sit amet. Phasellus et lorem
-                    volutpat, accumsan justo in, ultrices nisi. Duis dignissim orci sollicitudin ornare mattis. Donec vitae odio diam.</h6>
 
-                <h1 class="knowledge-main-title">Main Title (Set Algebra)</h1>
-                <h1 class="knowledge-title">Theme Title (Set algebra operations)</h1>
-                <h6 class="knowledge-desc"> &emsp; (Это команда для таба) Text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus finibus in nulla a lobortis. Integer odio nulla, sollicitudin fringilla commodo et, interdum nec turpis. Quisque pellentesque, arcu ac
-                    luctus interdum, urna elit euismod sem, eu accumsan ipsum ipsum a velit. Donec mattis metus odio, id maximus velit condimentum sit amet. Duis iaculis, lorem eget scelerisque porta, ante ligula consequat tellus, non vestibulum sem risus
-                    quis massa. Morbi sodales imperdiet nulla, id tristique ipsum ornare quis. Duis aliquet lacus non urna ornare, id sodales turpis malesuada. Maecenas interdum nibh nibh, condimentum rhoncus nulla lobortis sit amet. Phasellus et lorem
-                    volutpat, accumsan justo in, ultrices nisi. Duis dignissim orci sollicitudin ornare mattis. Donec vitae odio diam.</h6>
+                <!-- Set Theory -->
+
+                <h1 class="knowledge-main-title" id="set-theory">Set Theory</h1>
+                
+                <h1 class="knowledge-title">Basic concepts</h1>
+                <h6 class="knowledge-desc"> &emsp; The notion of a set is one of the initial notions of mathematics that cannot be defined quite formally. Synonyms of the term “set” are: a collection, a group, a class, etc. Approximately, one may say that a set is a collection of objects or ideas called elements of the set. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; Sets are usually denoted by Latin capital letters and their elements – by corresponding small letters: </h6>
+                <h6 class="knowledge-desc"> &emsp; A = {a, b, c, d}, B = {b, d}, C = {a, b, c, d}. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; If set B contains only elements that belong to set A then B is said to be a <strong class="strong"> subset </strong> of A: </h6>
+                <h6 class="knowledge-desc"> &emsp; B ⊂ A (proper subset,  not all elements of A are in B), C ⊆ A (C may have all elements of A or may not). </h6>
+                <h6 class="knowledge-desc"> &emsp; For any set A the following is true: Ø ⊆ A, A ⊆ A. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; Two sets A and B are <strong class="strong"> equal </strong> (denoted by A = B) if they consist of the same elements. This is equivalent to the condition that, for arbitrary x, if it is contained in A then it follows that x is in set B as well, and vice versa. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; The number of elements in a set A is called the <strong class="strong"> cardinality </strong> of A and is denoted |A|. If A = {a, b, c, d} then |A|= 4. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; Set P(A) is a <strong class="strong"> power </strong> set of A. P(A) contains all possible subsets of set A. </h6>
+                <h6 class="knowledge-desc"> &emsp; Ex.: A = {a, b}. P(A) = {Ø, {a}, {b}, {a, b}}. Elements of a power set are sets themselves. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; Sets A and B (finite or infinite) are called <strong class="strong"> equivalent </strong> (A ≈ B) if they have the same cardinality. </h6>
+                <h6 class="knowledge-desc"> &emsp; Ex.: A = {1, 7, 10, 15}, B = {a, b, c, d}. |A| = |B|  ⇨  A ≈ B. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+
+                <h1 class="knowledge-title">Operations on sets</h1>
+                <h6 class="knowledge-desc"> &emsp; <strong class="strong"> Union </strong> of sets A and B is a set C that contains only elements belonging to A or B. </h6>
+                <h6 class="knowledge-desc"> &emsp; C  =  A ∪ B.  A ∪ B  =  {x | x ∈ A or x ∈ B or both}. </h6>
+                <h6 class="knowledge-desc"> &emsp; Ex.: A = {a, b}, B = {b, c, d}. C  =  A ∪ B  =  {a, b} ∪ {b, c, d} = {a, b, c, d}. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; <strong class="strong"> Intersection </strong> of sets A and B is a set C which contains elements that belong both to A and B. </h6>
+                <h6 class="knowledge-desc"> &emsp; C  =  A ∩ B.  C  =  A ∩ B. C  =  {x | x ∈ A and x ∈ B}. </h6>
+                <h6 class="knowledge-desc"> &emsp; Ex.: A = {a, b, c, d}, B = {b, d, f, h}. C  =  A ∩ B  =  {a, b, c, d} ∩ {b, d, f, h}  =  {b, d}. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; <strong class="strong"> Compliment </strong> of a set A is a set B that contains all the elements of the universal set that does not belong to A. </h6>
+                <h6 class="knowledge-desc"> &emsp; C  =  <strong class="overline">A</strong>. C  =  {x | x ∈ U and x ∉ A}. </h6>
+                <h6 class="knowledge-desc"> &emsp; Ex.: U = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, A = {0, 2, 4, 6, 8}. C = <strong class="overline">A</strong> = {1, 3, 5, 7, 9}. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; <strong class="strong"> Difference </strong> of sets A and B is a set C that consists of the elements that belong to A and don’t belong to B. </h6>
+                <h6 class="knowledge-desc"> &emsp; C  =  A – B. C  =  {x │ x  A ∈ and x ∉ B}. </h6>
+                <h6 class="knowledge-desc"> &emsp; Ex.: A = {0, 1, 2, 3, 4}, B = {0, 2, 4, 6}. C  =  A - B  =  {0, 1, 2, 3, 4} - {0, 2, 4, 6} = {1, 3}. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+
+                <!-- Set albebra -->
+
+                <h1 class="knowledge-main-title" id="set-algebra">Algebra Of Sets</h1>
+                
+                <h1 class="knowledge-title">Algebra of sets</h1>
+                <h6 class="knowledge-desc"> &emsp; <strong class="strong"> Definition: </strong> Set algebra is a set of all subsets of U plus {∪, /, ‾ }. </h6>
+                <h6 class="knowledge-desc"> &emsp; An algebra is a set of elements of an arbitrary nature together with a number of operations defined on the elements of the given set. The nature of the set elements, the number and the properties of the operations determine the specific type of an algebra.</h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                
+                <h1 class="knowledge-title"> Laws of algebra of sets: </h6>
+                <h6 class="knowledge-desc"> &emsp; In our application there is no functionality for simplifying equations, but for manual calculations the following laws will be very useful </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 1. Laws of simplification: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  A ∪ A  =  A; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  A ∩ A  =  A; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 2. Commutative laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  A ∪ B  =  B ∪ A; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  A ∩ B  =  B ∩ A; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 3. Associative laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  A ∪ (B ∪ C)  =  (A ∪ B) ∪ C; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  A ∩ (B ∩ C)  =  (A ∩ B) ∩ C; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 4. Distributive laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  A ∩ (B ∪ C)  =  (A ∩ B) ∪ (A ∩ C); </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  A ∪ (B ∩ C)  =  (A ∪ B) ∩ (A ∪ C) </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 5. Elimination laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  A ∪ (A ∩ B)  =  A; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  A ∩ (A ∪ B)  =  A; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 6. Laws for constants: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  A ∪ U  =  U;    A ∩ Ø  =  Ø; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  A ∪ Ø  =  A;    A ∩ U  =  A; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 7. The law of double complement: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;A̿  =  A; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 8. The law of the excluded middle: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;A ∪ <strong class="overline">A</strong>  =  U; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 9. The law of contradiction: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;A ∩ <strong class="overline">A</strong>  =  Ø; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 10. De Morgan's laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  <strong class="overline">(A ∪ B)</strong>  =  <strong class="overline">A</strong> ∩ <strong class="overline">B</strong>; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  <strong class="overline">(A ∩ B)</strong>  =  <strong class="overline">A</strong> ∪ <strong class="overline">B</strong>; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; All these variables A, B, C, ... represent not just individual sets but arbitrary formulas of the algebra of sets. All these laws can be used for equivalent transformations of the formulas of the set algebra usually in order to simplify them. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; <strong class="strong"> Example: </strong> simplify the formula. </h6>
+                <h6 class="knowledge-desc"> &emsp; A ∪ B ∩ <strong class="overline">(A ∩ B)</strong>  =  A ∪ B ∩ (<strong class="overline">A</strong> ∪ <strong class="overline">B</strong>)  =  A ∪ (B ∩ <strong class="overline">A</strong> ∪ B ∩ <strong class="overline">B</strong>)  =  A ∪ (B ∩ <strong class="overline">A</strong>)  =  (A ∪ B) ∩ (A ∪ <strong class="overline">A</strong>)  =  A ∪ B </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+
+                <!-- Boolean functions -->
+
+                <h1 class="knowledge-main-title" id="boolean-functions">Boolean Functions</h1>
+
+                <h1 class="knowledge-title">Boolean functions</h1>
+                <h6 class="knowledge-desc"> &emsp; A function y = f(x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>) where y, x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub> ∈ {0;1} is called an n-place Boolean function. Any Boolean function can be presented by a formula (an expression consisting of Boolean functions and their compositions).</h6>
+                <h6 class="knowledge-desc"> &emsp; It is possible to construct a truth table for a boolean function by its number and the number of arguments n. </h6>
+                
+                    <div class="step-by-step" style="margin-top: 0px; margin-bottom: 0px;">
+                        <h1 class="knowledge-title" style="margin-bottom: 0px;"> &emsp; Ex.: Truth Tabel for: f(x<sub>1</sub>, x<sub>2</sub>) = x<sub>1</sub> ^ x<sub>2</sub> </h1>
+                        <div class="input-wrap" style="width: 88%;">
+                            <div class="input"><input type="table-start" value="x₁        x₂    :    f(x₁, x₂)" readonly/></div>
+                        </div>
+                        <div class="input-wrap" style="width: 88%;">
+                            <div class="input"><input type="table-mid" value="0        0      :          0" readonly/></div>
+                        </div>
+                        <div class="input-wrap" style="width: 88%;">
+                            <div class="input"><input type="table-mid" value="0        1      :          0" readonly/></div>
+                        </div>
+                        <div class="input-wrap" style="width: 88%;">
+                            <div class="input"><input type="table-mid" value="1        0      :          0" readonly/></div>
+                        </div>
+                        <div class="input-wrap" style="width: 88%;">
+                            <div class="input"><input type="table-end" value="1        1      :          1" readonly/></div>
+                        </div>
+                    </div>
+
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+
+                <!-- Algebra of 2-valued Boolean functions -->
+
+                <h1 class="knowledge-main-title" id="boolean-algebra">Algebra of 2-valued Boolean functions</h1>
+
+                <h1 class="knowledge-title">Algebra of 2-valued Boolean functions</h1>
+                <h6 class="knowledge-desc"> &emsp; Reminder: 2-element Boolean algebra = {0,1} + {^, ∨, ‾ }. </h6>
+                <h6 class="knowledge-desc"> &emsp; Priority of Boolean functions in formulas: ( ), ‾, ^, ∨. </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                
+                <h1 class="knowledge-title"> Laws of 2-element Boolean algebra: </h6>
+                <h6 class="knowledge-desc"> &emsp; In our application there is no functionality for simplifying equations, but for manual calculations the following laws will be very useful </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 1. Commutative laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  a ∨ b  =  b ∨ b; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  a ^ b  =  a ^ b; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 2. Associative laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  a ∨ (b ∪ c)  =  (a ∨ b) ∨ c; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  a ^ (b ^ c)  =  (a ^ b) ^ c; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 3. Distributive laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  a ∨ (b ∨ c)  =  (a ∨ b) ^ (a ∨ c) </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  a ^ (b ∨ c)  =  a ^ b ∨ a ^ c; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 4. Elimination laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  a ∨ a ^ b  =  a; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  a ^ (a ∨ b)  =  a; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 5. Laws for constants: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  a ∨ 0  =  a;    a ∨ 1  =  1; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;b)  a ^ 0  =  0;    a ^ 1  =  a; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 6. Double negation law: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a̿  =  a; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 7. Idempotent laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a) a ∨ a  =  a; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a) a ^ a  =  a; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 8. Negations laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a) a ∨ <strong class="overline"> a </strong>  =  1 (excluded middle); </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a) a ^ <strong class="overline"> a </strong>  =  0; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; 9. De Morgan’s laws: </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  <strong class="overline">(a ∨ b)</strong>  =  <strong class="overline">a</strong> ^ <strong class="overline">b</strong>; </h6>
+                <h6 class="knowledge-desc"> &emsp;    &nbsp;&nbsp;&nbsp;&nbsp;a)  <strong class="overline">(a ^ b)</strong>  =  <strong class="overline">a</strong> ∨ <strong class="overline">b</strong>; </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+
+                <h1 class="knowledge-title" id="PDNF">Perfect Disjunctive Normal Form (PDNF)</h1>
+                <h6 class="knowledge-desc"> &emsp; <strong class="strong"> Definition: </strong> A formula of a Boolean function which is a disjunction of its minterms is called its <strong class="strong"> Perfect Disjunctive Normal Form (PDNF)</strong>. In technical papers such a formula is called a <strong class="strong"> Complete Sum of Products Form (CSPF)</strong>. </h6>
+                <h6 class="knowledge-desc"> &emsp; <strong class="strong"> Minterm </strong> is a product of all the literals (with or without complement). </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; Building a formula by a truth table. A method based on 1-values of a Boolean function (Method for building PDNF): </h6>
+                
+                <div class="step-by-step" style="margin-top: 0px; margin-bottom: 15px;">
+                    <h1 class="knowledge-title" style="margin-bottom: 0px;"> &emsp; Given: a 2-values Boolean function: </h1>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-start" value="x        y        z     :     f(x, y, z)" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="0        0        0               0" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="0        0        1               1̲             ⟶         x̅ ^ y̅ ^ z̅ = 1 - minterm" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="0        1        0               0" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="0        1        1               1̲             ⟶         x̅ ^ y ^ z = 1 - minterm" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="1        0        0               1̲             ⟶         x̅ ^ y̅ ^ z = 1 - minterm" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="1        0        1               0" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="1        1        0               0" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-end" value="1        1        1               0" readonly/></div>
+                    </div>
+                </div>
+
+                <h6 class="knowledge-desc"> &emsp; x̅^y̅^z̅ ∨ x̅^y^z ∨ x̅^y̅^z = x̅y̅z̅ ∨ x̅yz ∨ x̅y̅z - PDNF </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+
+                <h1 class="knowledge-title" id="PCNF">Perfect Conjunctive Normal Form (PCNF)</h1>
+                <h6 class="knowledge-desc"> &emsp; <strong class="strong"> Definition: </strong> A formula which is a conjunction of maxterms is called the <strong class="strong"> Perfect Conjunctive Normal Form (PCNF)</strong>. or, more frequently, <strong class="strong"> Complete Product-of-Sums Form (CPSF)</strong>. </h6>
+                <h6 class="knowledge-desc"> &emsp; <strong class="strong"> Maxterm </strong> is a product of all the literals (with or without complement). </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
+                <h6 class="knowledge-desc"> &emsp; Building a formula by a truth table. A method based on 1-values of a Boolean function (Method for building PCNF): </h6>
+                
+                <div class="step-by-step" style="margin-top: 0px; margin-bottom: 15px;">
+                    <h1 class="knowledge-title" style="margin-bottom: 0px;"> &emsp; Given: a 2-values Boolean function: </h1>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-start" value="x        y        z     :     f(x, y, z)" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="0        0        0               0̲             ⟶         x ∨ y ∨ z = 0 - maxterm" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="0        0        1               1" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="0        1        0               0̲             ⟶         x ∨ y̅ ∨ z = 0 - maxterm" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="0        1        1               1" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="1        0        0               1" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="1        0        1               0̲             ⟶         x̅ ∨ y ∨ z̅ = 0 - maxterm" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-mid" value="1        1        0               0̲             ⟶         x̅ ∨ y̅ ∨ z = 0 - maxterm" readonly/></div>
+                    </div>
+                    <div class="input-wrap" style="width: 88%;">
+                        <div class="input"><input type="table-end" value="1        1        1               0̲             ⟶         x̅ ∨ y̅ ∨ z̅ = 0 - maxterm" readonly/></div>
+                    </div>
+                </div>
+
+                <h6 class="knowledge-desc"> &emsp; (x∨y∨z) ^ (x∨y̅∨z) ^ (x̅∨y∨z̅) ^ (x̅∨y̅∨z) ^ (x̅∨y̅∨z̅) - PCNF </h6>
+                <h6 class="knowledge-desc"> &emsp;  </h6>
             </div>
         </div>
 </body>

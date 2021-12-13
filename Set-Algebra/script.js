@@ -338,7 +338,8 @@ function stepByStep() {
     stepByStep.classList.remove('hide');
     stepByStep.classList.remove('close');
     stepByStep.insertAdjacentHTML('beforeend', `  <div class="step-by-step" id="steps">
-                                                     <h1>Step by step</h1>
+                                                     <h1>Step by step
+                                                     <a href="../Knowledgebase#set-algebra" title="Learn more about algebra of sets"><img src="../img/question-mark.png" class="question-mark-button"></a></h1>
                                                    </div>`);
     Evaluate();
 
