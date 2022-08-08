@@ -31,6 +31,10 @@ If you want to add a feature, you should follow these steps:
 
 If you found an issue or would like to submit an improvement to this project, please submit an issue using the issues tab above. If you would like to submit a PR with a fix, reference the issue you created!
 
+## Development status
+
+Released – Project is complete
+
 ## Authors' thought
 
 - cuqmbr: it was my first collab, it helped me to get a few additional points to scholarship ranking :)
