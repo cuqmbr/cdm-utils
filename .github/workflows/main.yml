@@ -9,6 +9,6 @@ jobs:
             fetch-depth: 0
         - uses: yesolutions/mirror-action@master
           with:
-            REMOTE: 'https://git.cuqmbr.xyz/cuqmbr/cmd-utils.git'
+            REMOTE: 'https://git.cuqmbr.xyz/cuqmbr/cdm-utils.git'
             GIT_USERNAME: cuqmbr
             GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
