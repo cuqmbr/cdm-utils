@@ -6,13 +6,15 @@ Available feature:
 - Boolean calculus including truth tables, PDNF and PCNF
 - Setp by step calculus
 
+<!-- 
 ## Project preview
 
 <div style="display: flex;">
   <img src="http://drive.google.com/uc?export=view&id=1tAZcarKvcVKFw90B3eLnDJpCp0zTzX4-" alt="Boolean algebra calculator page" width="480" height="233"  border="10" />
-</div>
+</div> 
 
-Checkout github-pages deployment [here](https://cuqmbr.github.io/cdm-utils/)
+Checkout github-pages deployment [here](https://cuqmbr.github.io/cdm-utils/) 
+-->
 
 ## How to install?
 
